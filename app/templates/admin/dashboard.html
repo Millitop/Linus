@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Översikt · {{ site_name }}{% endblock %}
+{% block content %}
+<h1>Översikt</h1>
+<div class="stat-row">
+  <div class="stat-box">
+    <span class="stat-number">{{ checked_in_count }}</span>
+    <span class="stat-label">incheckade nu</span>
+  </div>
+  <div class="stat-box">
+    <span class="stat-number">{{ total_active }}</span>
+    <span class="stat-label">registrerade barn</span>
+  </div>
+</div>
+
+<h2>Senaste händelser</h2>
+<table class="table">
+  <thead><tr><th>Tid</th><th>Händelse</th><th>Barn</th><th>Personal</th></tr></thead>
+  <tbody>
+    {% for entry in recent %}
+    <tr>
+      <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td>{{ entry.event_type }}</td>
+      <td>{{ entry.child.full_name() if entry.child else '-' }}</td>
+      <td>{{ entry.staff_user.display_name if entry.staff_user else '-' }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">Inga händelser ännu.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p><a href="{{ url_for('admin.audit_log') }}">Se hela loggen →</a></p>
+{% endblock %}

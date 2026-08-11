@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Registrera barn · {{ site_name }}{% endblock %}
+{% block content %}
+<h1>Registrera nytt barn</h1>
+
+{% if new_pin %}
+<div class="card-box highlight">
+  <h2>{{ registered_child.full_name() }} är registrerad</h2>
+  <p>PIN-kod för att hämta gårdskortet igen senare: <strong>{{ new_pin }}</strong></p>
+  <p>Ge PIN-koden till barnet/vårdnadshavaren nu — den visas bara denna gång.</p>
+  <p><img src="{{ new_qr_url }}" alt="Gårdskort QR-kod" class="qr-image"></p>
+  <p><a class="btn" href="{{ new_qr_url }}" download="gardskort.png">Ladda ner QR-koden</a></p>
+</div>
+{% endif %}
+
+<form method="post" novalidate class="card-box narrow">
+  {{ form.hidden_tag() }}
+  <label>{{ form.first_name.label }} {{ form.first_name() }}</label>
+  <label>{{ form.last_name.label }} {{ form.last_name() }}</label>
+  <label>{{ form.group_class.label }} {{ form.group_class() }}</label>
+  <label>{{ form.birth_year.label }} {{ form.birth_year() }}</label>
+  <hr>
+  <label>{{ form.guardian_name.label }} {{ form.guardian_name() }}</label>
+  <label>{{ form.guardian_phone.label }} {{ form.guardian_phone() }}</label>
+  <label>{{ form.guardian_email.label }} {{ form.guardian_email() }}</label>
+  {{ form.submit(class_="btn primary") }}
+</form>
+{% endblock %}

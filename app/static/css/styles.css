@@ -1,0 +1,117 @@
+:root {
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-text: #1c1f26;
+  --color-muted: #6b7280;
+  --color-primary: #1e6f4c;
+  --color-primary-dark: #144d34;
+  --color-danger: #b3261e;
+  --color-warning: #8a5a00;
+  --color-border: #d9dce1;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.brand { font-weight: 700; color: var(--color-primary-dark); text-decoration: none; }
+
+.topnav a {
+  margin-left: 1rem;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.topnav a:hover { text-decoration: underline; }
+
+.content { max-width: 960px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+
+.card-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.card-box.narrow { max-width: 480px; }
+.card-box.highlight { border-color: var(--color-primary); background: #eef8f2; }
+
+label { display: block; margin-bottom: 0.85rem; font-size: 0.9rem; color: var(--color-muted); }
+label input, label select { display: block; width: 100%; margin-top: 0.3rem; padding: 0.5rem; border: 1px solid var(--color-border); border-radius: 6px; font-size: 1rem; }
+
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.btn.primary { background: var(--color-primary); color: white; border-color: var(--color-primary-dark); }
+.btn.warn { border-color: var(--color-warning); color: var(--color-warning); }
+.btn.danger { border-color: var(--color-danger); color: var(--color-danger); }
+
+.button-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.button-row form { display: inline; }
+
+.table { width: 100%; border-collapse: collapse; background: var(--color-surface); }
+.table th, .table td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--color-border); font-size: 0.92rem; }
+
+.badge { padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.badge-in { background: #e1f5ea; color: var(--color-primary-dark); }
+.badge-out { background: #eee; color: var(--color-muted); }
+
+.stat-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+.stat-box { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem 1.5rem; text-align: center; }
+.stat-number { display: block; font-size: 2rem; font-weight: 700; color: var(--color-primary-dark); }
+.stat-label { color: var(--color-muted); font-size: 0.85rem; }
+
+.flashes { list-style: none; padding: 0; }
+.flash { padding: 0.6rem 0.9rem; border-radius: 8px; margin-bottom: 0.6rem; font-size: 0.9rem; }
+.flash-success { background: #e1f5ea; color: var(--color-primary-dark); }
+.flash-danger { background: #fbe4e2; color: var(--color-danger); }
+.flash-warning { background: #fdf1d6; color: var(--color-warning); }
+.flash-info { background: #e3edfb; color: #1f4e8a; }
+
+.qr-image { width: 220px; height: 220px; image-rendering: pixelated; border: 8px solid white; border-radius: 8px; }
+
+.pagination { display: flex; gap: 1rem; align-items: center; margin-top: 1rem; font-size: 0.9rem; }
+
+/* Gate kiosk screen */
+.kiosk-body { background: #10151c; color: white; height: 100vh; margin: 0; }
+.kiosk { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 1rem; }
+.kiosk h1 { font-size: 2rem; margin-bottom: 0; }
+.kiosk-hint { color: #9aa5b1; margin-top: 0.25rem; }
+.kiosk-hidden-input { position: absolute; opacity: 0; height: 0; width: 0; border: none; }
+.kiosk-result {
+  margin-top: 2rem;
+  width: min(90vw, 560px);
+  padding: 2.5rem 1.5rem;
+  border-radius: 24px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  transition: background 0.15s ease;
+}
+.kiosk-idle { background: #1c2531; color: #9aa5b1; }
+.kiosk-in { background: #1e6f4c; color: white; }
+.kiosk-out { background: #4a5568; color: white; }
+.kiosk-error { background: #8a2d24; color: white; }

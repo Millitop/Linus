@@ -1,0 +1,17 @@
+[Unit]
+Description=Gardskort optional camera-based scanner fallback (not used with a USB HID scanner)
+After=gardskort-web.service
+Requires=gardskort-web.service
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/linus
+ExecStart=/home/pi/linus/.venv/bin/python scanner/camera_scan.py --url http://localhost:5000/gate/scan
+Restart=on-failure
+RestartSec=3
+
+# This unit is disabled by default -- only enable it on sites without a
+# USB HID barcode scanner. See scanner/camera_scan.py.
+[Install]
+WantedBy=multi-user.target

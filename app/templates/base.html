@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site_name }}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('admin.dashboard') }}">{{ site_name }} · Gårdskort</a>
+    {% if current_user.is_authenticated %}
+      <nav class="topnav">
+        <a href="{{ url_for('admin.dashboard') }}">Översikt</a>
+        <a href="{{ url_for('admin.register_child') }}">Registrera barn</a>
+        <a href="{{ url_for('admin.children_list') }}">Barn</a>
+        <a href="{{ url_for('admin.attendance_live') }}">Närvaro</a>
+        <a href="{{ url_for('admin.audit_log') }}">Logg</a>
+        <a href="{{ url_for('auth.logout') }}">Logga ut ({{ current_user.display_name or current_user.username }})</a>
+      </nav>
+    {% endif %}
+  </header>
+
+  <main class="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="flash flash-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

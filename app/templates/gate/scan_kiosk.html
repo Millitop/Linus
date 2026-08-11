@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grinden · {{ site_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="kiosk-body">
+  <main class="kiosk">
+    <h1 id="kiosk-site-name">{{ site_name }}</h1>
+    <p class="kiosk-hint">Visa din QR-kod för läsaren</p>
+
+    <div id="kiosk-result" class="kiosk-result kiosk-idle">
+      <span id="kiosk-result-text">Redo att scanna</span>
+    </div>
+
+    <form id="scan-form" autocomplete="off">
+      <input id="token-input" name="token" type="text" autofocus
+             inputmode="none" class="kiosk-hidden-input">
+    </form>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/scan_kiosk.js') }}"></script>
+</body>
+</html>

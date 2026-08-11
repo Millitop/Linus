@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hämta gårdskort · {{ site_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <main class="content">
+    <div class="card-box narrow">
+      <h1>Hämta ditt gårdskort</h1>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for category, message in messages %}
+              <li class="flash flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      {% if qr_url %}
+        <p>Här är ditt gårdskort, {{ child_name }}:</p>
+        <p><img src="{{ qr_url }}" alt="Gårdskort QR-kod" class="qr-image"></p>
+        <p><a class="btn" href="{{ qr_url }}" download="gardskort.png">Ladda ner</a></p>
+        <p>Tips: ta en skärmdump så har du kortet även utan wifi.</p>
+      {% else %}
+        <form method="post" novalidate>
+          <label>Förnamn <input type="text" name="first_name" required></label>
+          <label>Efternamn <input type="text" name="last_name" required></label>
+          <label>PIN-kod <input type="text" name="pin" inputmode="numeric" required></label>
+          <button class="btn primary" type="submit">Visa mitt kort</button>
+        </form>
+      {% endif %}
+    </div>
+  </main>
+</body>
+</html>

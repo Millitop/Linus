@@ -1,0 +1,16 @@
+[Unit]
+Description=Gardskort kiosk browser (gate scan screen)
+After=gardskort-web.service graphical.target
+Requires=gardskort-web.service
+
+[Service]
+Type=simple
+User=pi
+Environment=DISPLAY=:0
+ExecStartPre=/bin/sleep 5
+ExecStart=/usr/bin/chromium-browser --kiosk --noerrdialogs --disable-infobars --incognito http://localhost:5000/gate
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=graphical.target

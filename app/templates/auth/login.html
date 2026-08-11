@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Logga in · {{ site_name }}{% endblock %}
+{% block content %}
+<div class="card-box narrow">
+  <h1>Personalinloggning</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <label>{{ form.username.label }}
+      {{ form.username(size=32, autofocus=true) }}
+    </label>
+    <label>{{ form.password.label }}
+      {{ form.password(size=32) }}
+    </label>
+    {{ form.submit(class_="btn primary") }}
+  </form>
+</div>
+{% endblock %}
