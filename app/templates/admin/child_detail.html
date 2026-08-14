@@ -2,10 +2,11 @@
 {% block title %}{{ child.full_name() }} · {{ site_name }}{% endblock %}
 {% block content %}
 <h1>{{ child.full_name() }}</h1>
-<p>Grupp: {{ child.group_class or '-' }}</p>
+<p>Grupp: {{ child.group_class or '-' }} · Födelseår: {{ child.birth_year or '-' }}</p>
 <p>Status: <span class="badge {{ 'badge-in' if child.current_status == 'in' else 'badge-out' }}">
   {{ 'Incheckad' if child.current_status == 'in' else 'Utcheckad' }}
 </span></p>
+<p><a class="btn" href="{{ url_for('admin.edit_child', child_id=child.id) }}">Redigera uppgifter</a></p>
 
 <h2>Vårdnadshavare</h2>
 <ul>

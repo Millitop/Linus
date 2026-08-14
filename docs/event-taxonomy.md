@@ -11,8 +11,9 @@ Alla skrivs till samma `LogEntry`-tabell, skiljs åt av `event_type`:
 | `check_in` / `check_out` | Grind-skanning, togglas automatiskt utifrån aktuell status | child_id |
 | `manual_check_in` / `manual_check_out` | Personal rättar status i adminvyn, eller nattlig auto-utcheckning | child_id, staff_user_id (null vid auto) |
 | `scan_rejected` | Okänd/inaktiv token skannad, eller tomt/inaktivt barn | staff_user_id=null |
+| `child_updated` | Personal redigerar ett barns uppgifter i adminvyn | child_id, staff_user_id |
 | `staff_login` / `staff_logout` | Personalens inloggning/utloggning | staff_user_id |
-| `child_data_deleted` | GDPR-radering genomförd | child_id (historisk referens kvarstår) |
+| `child_data_deleted` | GDPR-radering genomförd, manuellt eller automatiskt vid 18 års ålder | child_id (historisk referens kvarstår) |
 
 ## Varför "inloggning" i kravet motsvarar flera olika händelser
 

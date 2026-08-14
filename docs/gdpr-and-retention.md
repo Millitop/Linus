@@ -30,11 +30,14 @@ barnens uppgifter.
   sparas. `scripts/retention_cleanup.py` körs nattligen (via cron/systemd
   timer) och raderar äldre poster. Sätt till `0` för att stänga av
   automatisk gallring om verksamheten har andra krav.
+- `ADULT_AGE_YEARS` (standard 18) styr när ett barns personuppgifter
+  automatiskt raderas — se "Automatisk radering vid 18 års ålder" nedan.
 
-## Rätt till radering
+## Rätt till radering (manuell)
 
-Adminvyn har en "Radera personuppgifter"-knapp per barn
-(`admin.delete_child`) som:
+Adminvyn (`/admin/children/<id>`) har en "Radera personuppgifter"-knapp
+per barn som anropar `erase_child_personal_data()`
+(`app/admin/services.py`). Den funktionen:
 - inaktiverar och tar bort kortets token-koppling (kortet slutar fungera),
 - tar bort vårdnadshavarkontakter helt,
 - skriver över barnets namn/grupp/födelseår/PIN-hash med platshållarvärden,
@@ -45,4 +48,23 @@ Adminvyn har en "Radera personuppgifter"-knapp per barn
 Detta är en medveten avvägning mellan "rätt att bli glömd" och
 verksamhetens behov av en pålitlig närvarohistorik. Om fullständig
 radering av loggrader krävs (t.ex. efter `LOG_RETENTION_DAYS`), sköts det
-av gallringsjobbet ovan.
+av gallringsjobbet nedan.
+
+## Automatisk radering vid 18 års ålder
+
+Fritidshemmet vänder sig till barn, inte vuxna — så personuppgifter för
+någon som fyllt `ADULT_AGE_YEARS` (standard 18) år ska inte ligga kvar.
+`scripts/retention_cleanup.py` kör därför nattligen
+`purge_children_who_turned_adult()` (`app/admin/services.py`), som
+använder **samma** `erase_child_personal_data()`-funktion som den
+manuella raderingsknappen — alltså identisk radering, bara automatiskt
+triggad.
+
+Eftersom endast `birth_year` lagras (inget fullständigt födelsedatum,
+se dataminimering ovan) kan systemet inte veta exakt vilken dag någon
+fyller 18. Åldern räknas konservativt: från och med den 1 januari det år
+personen fyller `ADULT_AGE_YEARS` räknas hen som vuxen, vilket kan vara
+några månader innan den faktiska födelsedagen. Det är en medveten,
+integritetsvänlig avvägning — hellre radera något för tidigt än att
+personuppgifter om en snart vuxen person ligger kvar för länge. Sätt
+`ADULT_AGE_YEARS=0` för att stänga av denna automatik helt.

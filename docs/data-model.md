@@ -39,3 +39,13 @@ Den samlade audit-loggen. Se `docs/event-taxonomy.md` för alla
 
 Inga personnummer, hemadresser eller foton lagras någonstans i schemat.
 Se `docs/gdpr-and-retention.md`.
+
+## Radering
+
+`app/admin/services.py` innehåller den delade raderingslogiken:
+- `erase_child_personal_data()` — skriver över ett barns personuppgifter
+  och inaktiverar kortet. Används av både adminvyns "Radera
+  personuppgifter"-knapp och den automatiska nattliga rensningen.
+- `purge_children_who_turned_adult()` — hittar alla barn där
+  `Child.is_adult(ADULT_AGE_YEARS)` är sant (beräknat från `birth_year`)
+  och raderar deras uppgifter. Körs av `scripts/retention_cleanup.py`.

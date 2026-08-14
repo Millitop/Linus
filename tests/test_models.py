@@ -27,3 +27,19 @@ def test_active_card_returns_only_active_one(app):
     db.session.commit()
 
     assert child.active_card().token == "new-token"
+
+
+def test_is_adult_true_once_birth_year_plus_threshold_reached():
+    child = Child(first_name="Ida", last_name="Ivarsson", birth_year=2006)
+    assert child.is_adult(18, as_of_year=2024) is True
+    assert child.is_adult(18, as_of_year=2023) is False
+
+
+def test_is_adult_false_without_birth_year():
+    child = Child(first_name="Jon", last_name="Jonsson")
+    assert child.is_adult(18, as_of_year=2099) is False
+
+
+def test_is_adult_disabled_when_threshold_is_zero():
+    child = Child(first_name="Kim", last_name="Karlsson", birth_year=1990)
+    assert child.is_adult(0, as_of_year=2099) is False

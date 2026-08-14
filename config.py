@@ -39,6 +39,11 @@ class Config:
     # GDPR log retention, in days. 0 disables automatic purging.
     LOG_RETENTION_DAYS = int(os.environ.get("LOG_RETENTION_DAYS", "365"))
 
+    # A child's personal data is automatically erased once they reach this
+    # age (computed from birth_year only -- see docs/gdpr-and-retention.md).
+    # 0 disables automatic age-based purging.
+    ADULT_AGE_YEARS = int(os.environ.get("ADULT_AGE_YEARS", "18"))
+
     # Future extension point only -- no real cloud backend is implemented.
     SYNC_ENABLED = _bool_env("SYNC_ENABLED", False)
 

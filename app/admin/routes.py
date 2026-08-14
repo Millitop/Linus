@@ -1,6 +1,5 @@
 import csv
 import io
-from datetime import datetime, timezone
 
 from flask import (
     Blueprint,
@@ -14,7 +13,8 @@ from flask import (
 )
 from flask_login import current_user, login_required
 
-from app.admin.forms import ManualAttendanceForm, RegisterChildForm
+from app.admin.forms import EditChildForm, ManualAttendanceForm, RegisterChildForm
+from app.admin.services import erase_child_personal_data
 from app.card.services import issue_card, manual_set_status
 from app.extensions import db
 from app.models import Child, GuardianContact, LogEntry
@@ -108,6 +108,44 @@ def child_detail(child_id: int):
     return render_template("admin/child_detail.html", child=child, form=form)
 
 
+@admin_bp.route("/children/<int:child_id>/edit", methods=["GET", "POST"])
+def edit_child(child_id: int):
+    child = db.session.get(Child, child_id) or abort(404)
+    guardian = next((g for g in child.guardians if g.primary_contact), None) or (
+        child.guardians[0] if child.guardians else None
+    )
+
+    form = EditChildForm(obj=child)
+    if guardian and request.method == "GET":
+        form.guardian_name.data = guardian.name
+        form.guardian_phone.data = guardian.phone
+        form.guardian_email.data = guardian.email
+
+    if form.validate_on_submit():
+        child.first_name = form.first_name.data.strip()
+        child.last_name = form.last_name.data.strip()
+        child.group_class = (form.group_class.data or "").strip() or None
+        child.birth_year = form.birth_year.data or None
+
+        if guardian is None:
+            guardian = GuardianContact(child=child, relationship_label="vårdnadshavare", primary_contact=True)
+            db.session.add(guardian)
+        guardian.name = form.guardian_name.data.strip()
+        guardian.phone = (form.guardian_phone.data or "").strip() or None
+        guardian.email = (form.guardian_email.data or "").strip() or None
+
+        db.session.add(
+            LogEntry(
+                event_type="child_updated", child_id=child.id, staff_user_id=current_user.id, source="admin"
+            )
+        )
+        db.session.commit()
+        flash(f"{child.full_name()} uppdaterad.", "success")
+        return redirect(url_for("admin.child_detail", child_id=child.id))
+
+    return render_template("admin/edit_child.html", form=form, child=child)
+
+
 @admin_bp.route("/children/<int:child_id>/reissue-card", methods=["POST"])
 def reissue_card(child_id: int):
     child = db.session.get(Child, child_id) or abort(404)
@@ -150,33 +188,8 @@ def manual_status(child_id: int, status: str):
 
 @admin_bp.route("/children/<int:child_id>/delete", methods=["POST"])
 def delete_child(child_id: int):
-    """GDPR erasure: deactivate the child, revoke cards, and scrub
-    personal fields while keeping the audit log's historical row (with
-    child_id retained for safety-log continuity) intact. See
-    docs/gdpr-and-retention.md.
-    """
     child = db.session.get(Child, child_id) or abort(404)
-    for card in child.cards:
-        card.revoke()
-    for guardian in list(child.guardians):
-        db.session.delete(guardian)
-
-    child.first_name = "Raderad"
-    child.last_name = "Raderad"
-    child.group_class = None
-    child.birth_year = None
-    child.retrieval_pin_hash = None
-    child.active = False
-    child.deleted_at = datetime.now(timezone.utc)
-
-    db.session.add(
-        LogEntry(
-            event_type="child_data_deleted",
-            child_id=child.id,
-            staff_user_id=current_user.id,
-            source="admin",
-        )
-    )
+    erase_child_personal_data(child, staff_user_id=current_user.id, source="admin")
     db.session.commit()
     flash("Barnets personuppgifter har raderats.", "warning")
     return redirect(url_for("admin.children_list"))

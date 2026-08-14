@@ -1,22 +1,27 @@
 {% extends "base.html" %}
-{% block title %}Barn · {{ site_name }}{% endblock %}
+{% block title %}Elever · {{ site_name }}{% endblock %}
 {% block content %}
-<h1>Registrerade barn</h1>
+<h1>Elever</h1>
 <p><a class="btn primary" href="{{ url_for('admin.register_child') }}">+ Registrera nytt barn</a></p>
 <table class="table">
-  <thead><tr><th>Namn</th><th>Grupp</th><th>Status</th><th></th></tr></thead>
+  <thead><tr><th>Namn</th><th>Grupp</th><th>Födelseår</th><th>Status</th><th>Vårdnadshavare</th><th></th></tr></thead>
   <tbody>
     {% for child in children %}
     <tr>
       <td>{{ child.full_name() }}</td>
       <td>{{ child.group_class or '-' }}</td>
+      <td>{{ child.birth_year or '-' }}</td>
       <td><span class="badge {{ 'badge-in' if child.current_status == 'in' else 'badge-out' }}">
         {{ 'Incheckad' if child.current_status == 'in' else 'Utcheckad' }}
       </span></td>
-      <td><a href="{{ url_for('admin.child_detail', child_id=child.id) }}">Visa</a></td>
+      <td>{{ child.guardians[0].name if child.guardians else '-' }}</td>
+      <td class="row-actions">
+        <a href="{{ url_for('admin.child_detail', child_id=child.id) }}">Visa</a>
+        <a href="{{ url_for('admin.edit_child', child_id=child.id) }}">Redigera</a>
+      </td>
     </tr>
     {% else %}
-    <tr><td colspan="4">Inga barn registrerade ännu.</td></tr>
+    <tr><td colspan="6">Inga barn registrerade ännu.</td></tr>
     {% endfor %}
   </tbody>
 </table>

@@ -47,6 +47,22 @@ class Child(db.Model):
     def active_card(self):
         return next((c for c in self.cards if c.active), None)
 
+    def is_adult(self, threshold_years: int, as_of_year: int | None = None) -> bool:
+        """True once the child has reached ``threshold_years`` of age.
+
+        Only ``birth_year`` is stored (no full birth date, by deliberate
+        data minimization -- see docs/gdpr-and-retention.md), so this is
+        conservative: it counts a child as an adult starting from
+        January 1st of the year they turn ``threshold_years``, which may
+        be a few months before their actual birthday. That's an
+        acceptable, privacy-friendly trade-off for an automatic erasure
+        trigger.
+        """
+        if not self.birth_year or threshold_years <= 0:
+            return False
+        current_year = as_of_year if as_of_year is not None else utcnow().year
+        return current_year - self.birth_year >= threshold_years
+
     def set_retrieval_pin(self, raw_pin: str) -> None:
         self.retrieval_pin_hash = generate_password_hash(raw_pin)
 

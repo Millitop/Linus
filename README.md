@@ -14,6 +14,8 @@ på alla telefoner utan att någon behöver installera en app.
 
 - **Registrering** — personal registrerar ett barn och en
   vårdnadshavarkontakt, systemet genererar ett unikt gårdskort (QR-kod).
+- **Elevadmin** — se, sök och redigera alla elevers uppgifter
+  (namn, grupp, födelseår, vårdnadshavare), samt lägga till/ta bort.
 - **Hämta kort igen** — barnet/vårdnadshavaren kan hämta sin QR-kod igen
   med namn + PIN-kod, t.ex. via Pi:ns egna Wi-Fi.
 - **Grind-skanning** — en USB-handskanner (eller valfritt en kamera) vid
@@ -22,8 +24,9 @@ på alla telefoner utan att någon behöver installera en app.
 - **Live-närvaro & logg** — personal ser vilka barn som är incheckade just
   nu, samt en fullständig, exporterbar audit-logg över alla händelser.
 - **GDPR-medvetet** — minimal datainsamling, lokal lagring (ingen
-  molnberoende), rättighet att radera ett barns personuppgifter, samt
-  konfigurerbar gallring av loggar.
+  molnberoende), rättighet att radera ett barns personuppgifter,
+  **automatisk radering när ett barn fyller 18 år**, samt konfigurerbar
+  gallring av loggar.
 
 ## Snabbstart (utveckling)
 

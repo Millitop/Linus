@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Redigera {{ child.full_name() }} · {{ site_name }}{% endblock %}
+{% block content %}
+<h1>Redigera {{ child.full_name() }}</h1>
+
+<form method="post" novalidate class="card-box narrow">
+  {{ form.hidden_tag() }}
+  <label>{{ form.first_name.label }} {{ form.first_name() }}</label>
+  <label>{{ form.last_name.label }} {{ form.last_name() }}</label>
+  <label>{{ form.group_class.label }} {{ form.group_class() }}</label>
+  <label>{{ form.birth_year.label }} {{ form.birth_year() }}</label>
+  <hr>
+  <label>{{ form.guardian_name.label }} {{ form.guardian_name() }}</label>
+  <label>{{ form.guardian_phone.label }} {{ form.guardian_phone() }}</label>
+  <label>{{ form.guardian_email.label }} {{ form.guardian_email() }}</label>
+  <div class="button-row">
+    {{ form.submit(class_="btn primary") }}
+    <a class="btn" href="{{ url_for('admin.child_detail', child_id=child.id) }}">Avbryt</a>
+  </div>
+</form>
+{% endblock %}
