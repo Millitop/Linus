@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Statistik · {{ site_name }}{% endblock %}
+{% block content %}
+<h1>Statistik</h1>
+
+<div class="stat-row">
+  <div class="stat-box">
+    <span class="stat-number">{{ active_now }}</span>
+    <span class="stat-label">aktiva just nu</span>
+  </div>
+  <div class="stat-box">
+    <span class="stat-number">{{ unique_visitors }}</span>
+    <span class="stat-label">unika besökare (30 dagar)</span>
+  </div>
+</div>
+
+<h2>Besök senaste 14 dagarna</h2>
+<div class="bar-chart">
+  {% for day, count in visits_by_day %}
+  <div class="bar-chart-col">
+    <div class="bar-chart-bar" style="height: {{ (count / max_visits_by_day * 100) if max_visits_by_day else 0 }}%"
+         title="{{ day }}: {{ count }} besök"></div>
+    <span class="bar-chart-label">{{ day[5:] }}</span>
+  </div>
+  {% endfor %}
+</div>
+
+<h2>Populära tider (senaste 30 dagarna)</h2>
+<div class="bar-chart">
+  {% for hour, count in popular_hours %}
+  <div class="bar-chart-col">
+    <div class="bar-chart-bar" style="height: {{ (count / max_popular_hours * 100) if max_popular_hours else 0 }}%"
+         title="Kl {{ '%02d' % hour }}: {{ count }} incheckningar"></div>
+    <span class="bar-chart-label">{{ '%02d' % hour }}</span>
+  </div>
+  {% endfor %}
+</div>
+
+<p><a class="btn" href="{{ url_for('admin.attendance_live') }}">Vem är incheckad just nu →</a></p>
+{% endblock %}

@@ -1,32 +1,33 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField, SubmitField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Optional
 
 
-class RegisterChildForm(FlaskForm):
+class RegisterMemberForm(FlaskForm):
+    """Staff-assisted registration, e.g. helping someone whose phone is
+    broken. The public self-registration flow at /join uses the same
+    register_member() service directly without this form (no staff
+    session there).
+    """
+
     first_name = StringField("Förnamn", validators=[DataRequired()])
     last_name = StringField("Efternamn", validators=[DataRequired()])
-    group_class = StringField("Grupp/klass", validators=[Optional()])
-    birth_year = IntegerField("Födelseår (valfritt)", validators=[Optional()])
-
-    guardian_name = StringField("Vårdnadshavarens namn", validators=[DataRequired()])
-    guardian_phone = StringField("Telefon", validators=[Optional()])
-    guardian_email = StringField("E-post", validators=[Optional()])
+    phone = StringField("Telefon (valfritt)", validators=[Optional()])
 
     submit = SubmitField("Registrera och skapa gårdskort")
 
 
-class EditChildForm(FlaskForm):
+class EditMemberForm(FlaskForm):
     first_name = StringField("Förnamn", validators=[DataRequired()])
     last_name = StringField("Efternamn", validators=[DataRequired()])
-    group_class = StringField("Grupp/klass", validators=[Optional()])
-    birth_year = IntegerField("Födelseår (valfritt)", validators=[Optional()])
-
-    guardian_name = StringField("Vårdnadshavarens namn", validators=[DataRequired()])
-    guardian_phone = StringField("Telefon", validators=[Optional()])
-    guardian_email = StringField("E-post", validators=[Optional()])
+    phone = StringField("Telefon (valfritt)", validators=[Optional()])
 
     submit = SubmitField("Spara ändringar")
+
+
+class MemberSearchForm(FlaskForm):
+    query = StringField("Sök på namn", validators=[DataRequired()])
+    submit = SubmitField("Sök")
 
 
 class ManualAttendanceForm(FlaskForm):

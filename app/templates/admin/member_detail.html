@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ member.full_name() }} · {{ site_name }}{% endblock %}
+{% block content %}
+<h1>{{ member.full_name() }}</h1>
+<p>Telefon: {{ member.phone or '-' }}</p>
+<p>Status: <span class="badge {{ 'badge-in' if member.current_status == 'in' else 'badge-out' }}">
+  {{ 'Incheckad' if member.current_status == 'in' else 'Utcheckad' }}
+</span></p>
+<p><a class="btn" href="{{ url_for('admin.edit_member', member_id=member.id) }}">Redigera uppgifter</a></p>
+
+{% if member.emergency_contacts %}
+<h2>Kontaktperson</h2>
+<ul>
+  {% for c in member.emergency_contacts %}
+  <li>{{ c.name }} — {{ c.phone or '' }} {{ c.email or '' }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<h2>Kort</h2>
+<ul>
+  {% for c in member.cards %}
+  <li>{{ c.token[:8] }}… — {{ 'aktivt' if c.active else 'inaktiverat' }}</li>
+  {% endfor %}
+</ul>
+
+<div class="button-row">
+  <form method="post" action="{{ url_for('admin.reissue_card', member_id=member.id) }}">
+    {{ form.hidden_tag() }}
+    <button class="btn" type="submit">Utfärda nytt kort</button>
+  </form>
+  <form method="post" action="{{ url_for('admin.revoke_card', member_id=member.id) }}">
+    {{ form.hidden_tag() }}
+    <button class="btn warn" type="submit">Inaktivera nuvarande kort</button>
+  </form>
+  <form method="post" action="{{ url_for('admin.manual_status', member_id=member.id, status='in') }}">
+    {{ form.hidden_tag() }}
+    <button class="btn" type="submit">Rätta: sätt incheckad</button>
+  </form>
+  <form method="post" action="{{ url_for('admin.manual_status', member_id=member.id, status='out') }}">
+    {{ form.hidden_tag() }}
+    <button class="btn" type="submit">Rätta: sätt utcheckad</button>
+  </form>
+  <form method="post" action="{{ url_for('admin.delete_member', member_id=member.id) }}"
+        onsubmit="return confirm('Radera alla personuppgifter för {{ member.full_name() }}? Detta går inte att ångra.');">
+    {{ form.hidden_tag() }}
+    <button class="btn danger" type="submit">Radera personuppgifter (GDPR)</button>
+  </form>
+</div>
+{% endblock %}

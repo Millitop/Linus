@@ -1,11 +1,43 @@
-from flask import Blueprint, Response, abort, flash, jsonify, render_template, request
+from flask import Blueprint, Response, abort, flash, jsonify, render_template, request, url_for
 
+from app.admin.services import register_member
 from app.card.services import process_gate_scan
 from app.extensions import csrf, db, limiter
-from app.models import Card, Child, LogEntry
+from app.models import Card, LogEntry, Member
 from app.utils.qr import token_to_qr_png_bytes
 
 card_bp = Blueprint("card", __name__)
+
+
+@card_bp.route("/join", methods=["GET", "POST"])
+@csrf.exempt  # public self-registration page, no staff session
+@limiter.limit("20 per minute")
+def join():
+    """Public self-registration: a member signs themselves up (no
+    guardian/staff involvement needed) and gets their QR gårdskort
+    immediately. This is the primary way people join the fritidsgård.
+    """
+    new_pin = None
+    new_qr_url = None
+    new_member_name = None
+    if request.method == "POST":
+        first_name = (request.form.get("first_name") or "").strip()
+        last_name = (request.form.get("last_name") or "").strip()
+        phone = (request.form.get("phone") or "").strip()
+
+        if not first_name or not last_name:
+            flash("Förnamn och efternamn krävs.", "danger")
+        else:
+            result = register_member(
+                first_name=first_name, last_name=last_name, phone=phone, source="web-app"
+            )
+            new_pin = result.raw_pin
+            new_qr_url = url_for("card.card_qr_image", card_id=result.card_id)
+            new_member_name = result.member.full_name()
+
+    return render_template(
+        "card/join.html", new_pin=new_pin, new_qr_url=new_qr_url, new_member_name=new_member_name
+    )
 
 
 @card_bp.route("/card/<int:card_id>/qr.png")
@@ -25,21 +57,21 @@ def card_qr_image(card_id: int):
 @csrf.exempt  # plain HTML form, no session/CSRF cookie assumed on a shared kiosk browser
 @limiter.limit("10 per minute")
 def retrieve_card():
-    """Lets a child (or guardian) re-view their QR gårdskort using their
-    name + PIN, in case the original screenshot was lost. Intended to be
-    used over the Raspberry Pi's own local Wi-Fi access point.
+    """Lets a member re-view their QR gårdskort using their name + PIN,
+    in case the original screenshot was lost. Intended to be used over
+    the Raspberry Pi's own local Wi-Fi access point.
     """
     qr_url = None
-    child_name = None
+    member_name = None
     if request.method == "POST":
         first_name = (request.form.get("first_name") or "").strip()
         last_name = (request.form.get("last_name") or "").strip()
         pin = (request.form.get("pin") or "").strip()
 
-        candidates = Child.query.filter_by(
+        candidates = Member.query.filter_by(
             first_name=first_name, last_name=last_name, active=True
         ).all()
-        match = next((c for c in candidates if c.check_retrieval_pin(pin)), None)
+        match = next((m for m in candidates if m.check_retrieval_pin(pin)), None)
 
         if match is None:
             flash("Namn eller PIN-kod stämmer inte.", "danger")
@@ -48,12 +80,12 @@ def retrieve_card():
             if card is None:
                 flash("Inget aktivt kort hittades. Be personalen utfärda ett nytt.", "warning")
             else:
-                db.session.add(LogEntry(event_type="card_retrieval", child_id=match.id, source="web-app"))
+                db.session.add(LogEntry(event_type="card_retrieval", member_id=match.id, source="web-app"))
                 db.session.commit()
                 qr_url = f"/card/{card.id}/qr.png"
-                child_name = match.full_name()
+                member_name = match.full_name()
 
-    return render_template("card/retrieve.html", qr_url=qr_url, child_name=child_name)
+    return render_template("card/retrieve.html", qr_url=qr_url, member_name=member_name)
 
 
 @card_bp.route("/gate/scan", methods=["POST"])
@@ -73,7 +105,7 @@ def gate_scan():
         {
             "status": result.status,
             "message": result.message,
-            "child_name": result.child.full_name() if result.child else None,
+            "member_name": result.member.full_name() if result.member else None,
         }
     )
 

@@ -11,9 +11,9 @@
     <a class="brand" href="{{ url_for('admin.dashboard') }}">{{ site_name }} · Gårdskort</a>
     {% if current_user.is_authenticated %}
       <nav class="topnav">
-        <a href="{{ url_for('admin.dashboard') }}">Översikt</a>
-        <a href="{{ url_for('admin.register_child') }}">Registrera barn</a>
-        <a href="{{ url_for('admin.children_list') }}">Elever</a>
+        <a href="{{ url_for('admin.dashboard') }}">Statistik</a>
+        <a href="{{ url_for('admin.register_member_view') }}">Registrera medlem</a>
+        <a href="{{ url_for('admin.members_search') }}">Sök medlem</a>
         <a href="{{ url_for('admin.attendance_live') }}">Närvaro</a>
         <a href="{{ url_for('admin.audit_log') }}">Logg</a>
         <a href="{{ url_for('auth.logout') }}">Logga ut ({{ current_user.display_name or current_user.username }})</a>

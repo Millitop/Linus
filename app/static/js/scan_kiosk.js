@@ -38,9 +38,9 @@ async function submitToken(token) {
     });
     const data = await response.json();
     if (data.status === "checked_in") {
-      showResult("in", (data.child_name || "") + " incheckad ✓");
+      showResult("in", (data.member_name || "") + " incheckad ✓");
     } else if (data.status === "checked_out") {
-      showResult("out", (data.child_name || "") + " utcheckad ✓");
+      showResult("out", (data.member_name || "") + " utcheckad ✓");
     } else if (data.status === "debounced") {
       showResult("idle", data.message || "Redan registrerad");
     } else {

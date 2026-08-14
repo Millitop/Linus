@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bli medlem · {{ site_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <main class="content">
+    <div class="card-box narrow">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for category, message in messages %}
+              <li class="flash flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      {% if new_pin %}
+        <h1>Välkommen, {{ new_member_name }}!</h1>
+        <p>Det här är ditt gårdskort — visa QR-koden vid grinden för att checka in och ut.</p>
+        <p><img src="{{ new_qr_url }}" alt="Gårdskort QR-kod" class="qr-image"></p>
+        <p><a class="btn" href="{{ new_qr_url }}" download="gardskort.png">Ladda ner QR-koden</a></p>
+        <p>Tips: ta en skärmdump så har du kortet sparat även utan wifi.</p>
+        <p>Din PIN-kod om du behöver hämta kortet igen senare: <strong>{{ new_pin }}</strong>
+           (spara den nu — den visas bara denna gång).</p>
+        <p><a href="{{ url_for('card.retrieve_card') }}">Hämta kortet igen en annan gång →</a></p>
+      {% else %}
+        <h1>Bli medlem</h1>
+        <p>Skapa ditt gårdskort — ingen personal eller vårdnadshavare behövs.</p>
+        <form method="post" novalidate>
+          <label>Förnamn <input type="text" name="first_name" required autofocus></label>
+          <label>Efternamn <input type="text" name="last_name" required></label>
+          <label>Telefon (valfritt) <input type="tel" name="phone"></label>
+          <button class="btn primary" type="submit">Skapa mitt gårdskort</button>
+        </form>
+        <p>Redan medlem? <a href="{{ url_for('card.retrieve_card') }}">Hämta ditt kort igen</a></p>
+      {% endif %}
+    </div>
+  </main>
+</body>
+</html>

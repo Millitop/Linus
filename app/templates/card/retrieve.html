@@ -21,7 +21,7 @@
       {% endwith %}
 
       {% if qr_url %}
-        <p>Här är ditt gårdskort, {{ child_name }}:</p>
+        <p>Här är ditt gårdskort, {{ member_name }}:</p>
         <p><img src="{{ qr_url }}" alt="Gårdskort QR-kod" class="qr-image"></p>
         <p><a class="btn" href="{{ qr_url }}" download="gardskort.png">Ladda ner</a></p>
         <p>Tips: ta en skärmdump så har du kortet även utan wifi.</p>

@@ -11,7 +11,7 @@ def test_login_success_redirects_to_dashboard(client, staff_user):
         "/auth/login", data={"username": "admin", "password": "supersecret123"}, follow_redirects=True
     )
     assert response.status_code == 200
-    assert "Översikt".encode() in response.data
+    assert "Statistik".encode() in response.data
 
 
 def test_admin_requires_login(client):

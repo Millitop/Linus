@@ -4,13 +4,13 @@
 <h1>Logg</h1>
 <p><a class="btn" href="{{ url_for('admin.audit_log_export') }}">Exportera CSV</a></p>
 <table class="table">
-  <thead><tr><th>Tid</th><th>Händelse</th><th>Barn</th><th>Personal</th><th>Källa</th><th>Notering</th></tr></thead>
+  <thead><tr><th>Tid</th><th>Händelse</th><th>Person</th><th>Personal</th><th>Källa</th><th>Notering</th></tr></thead>
   <tbody>
     {% for entry in pagination.items %}
     <tr>
       <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
       <td>{{ entry.event_type }}</td>
-      <td>{{ entry.child.full_name() if entry.child else '-' }}</td>
+      <td>{{ entry.member.full_name() if entry.member else '-' }}</td>
       <td>{{ entry.staff_user.display_name if entry.staff_user else '-' }}</td>
       <td>{{ entry.source }}</td>
       <td>{{ entry.note or '' }}</td>

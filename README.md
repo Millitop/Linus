@@ -1,9 +1,10 @@
 # Gårdskort
 
-Ett digitalt "gårdskort"-system för fritidshem: barn/ungdomar visar en
-QR-kod på sin egen telefon för att checka in/ut vid skolgården, istället
-för ett fysiskt NFC-kort. Alla registreringar och in-/utcheckningar
-loggas lokalt på en Raspberry Pi som står vid grinden.
+Ett digitalt "gårdskort"-system för en fritidsgård: ungdomar checkar in
+och ut genom att visa en QR-kod på sin egen telefon, istället för ett
+fysiskt NFC-kort. Alla registreringar och in-/utcheckningar loggas
+lokalt på en Raspberry Pi som står vid dörren, och används för att föra
+statistik och veta hur många som är aktiva på gården just nu.
 
 Varför QR och inte riktig NFC-tappning? iPhone tillåter inte
 tredjepartsappar att emulera NFC-kort (Host Card Emulation finns bara
@@ -12,20 +13,24 @@ på alla telefoner utan att någon behöver installera en app.
 
 ## Funktioner
 
-- **Registrering** — personal registrerar ett barn och en
-  vårdnadshavarkontakt, systemet genererar ett unikt gårdskort (QR-kod).
-- **Elevadmin** — se, sök och redigera alla elevers uppgifter
-  (namn, grupp, födelseår, vårdnadshavare), samt lägga till/ta bort.
-- **Hämta kort igen** — barnet/vårdnadshavaren kan hämta sin QR-kod igen
-  med namn + PIN-kod, t.ex. via Pi:ns egna Wi-Fi.
+- **Självregistrering** — ungdomen skapar sitt eget gårdskort på
+  `/join`, ingen personal eller vårdnadshavare behövs. Personal kan
+  också hjälpa någon registrera sig på plats vid behov.
+- **Ingen bläddringsbar medlemslista** — adminvyn visar statistik, inte
+  en lista över alla registrerade. En enskild person går att söka upp
+  vid behov (t.ex. borttappat kort) på `/admin/members/search`.
+- **Statistik** — antal aktiva just nu, besök över tid, populära tider
+  och antal unika besökare, som en instrumentpanel för personal.
+- **Hämta kort igen** — den som tappat bort sin QR-kod kan hämta den
+  igen med namn + PIN-kod, t.ex. via Pi:ns egna Wi-Fi.
 - **Grind-skanning** — en USB-handskanner (eller valfritt en kamera) vid
-  grinden läser QR-koden och togglar in/ut-status, med tydlig bekräftelse
+  dörren läser QR-koden och togglar in/ut-status, med tydlig bekräftelse
   på skärmen.
-- **Live-närvaro & logg** — personal ser vilka barn som är incheckade just
+- **Live-närvaro & logg** — personal ser vilka som är incheckade just
   nu, samt en fullständig, exporterbar audit-logg över alla händelser.
 - **GDPR-medvetet** — minimal datainsamling, lokal lagring (ingen
-  molnberoende), rättighet att radera ett barns personuppgifter,
-  **automatisk radering när ett barn fyller 18 år**, samt konfigurerbar
+  molnberoende), rättighet att radera en persons uppgifter,
+  **automatisk radering vid långvarig inaktivitet**, samt konfigurerbar
   gallring av loggar.
 
 ## Snabbstart (utveckling)
@@ -40,8 +45,9 @@ python scripts/create_staff_user.py admin --role admin
 flask --app wsgi run --debug
 ```
 
-Besök `http://localhost:5000/`. Personalinloggning på `/auth/login`,
-grindens scan-vy på `/gate`, hämta-kort-sidan på `/card/retrieve`.
+Besök `http://localhost:5000/`. Självregistrering på `/join`,
+personalinloggning på `/auth/login`, grindens scan-vy på `/gate`,
+hämta-kort-sidan på `/card/retrieve`.
 
 Simulera en grindskanning utan hårdvara:
 
@@ -71,7 +77,7 @@ för en checklista att bocka av på plats.
 
 ## Avgränsning (v1)
 
-Byggt: allt ovan. Inte byggt (medvetet bortvalt för v1): SMS/e-post till
-vårdnadshavare, riktig NFC-tappning, synk mellan flera grindar/Pi:er
+Byggt: allt ovan. Inte byggt (medvetet bortvalt för v1): SMS/e-post-
+aviseringar, riktig NFC-tappning, synk mellan flera dörrar/Pi:er
 (endast ett tomt gränssnitt `app/sync/base.py` finns förberett),
 etikettskrivare, flerspråkigt UI.

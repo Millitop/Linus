@@ -3,16 +3,15 @@
 {% block content %}
 <h1>Incheckade just nu ({{ checked_in|length }})</h1>
 <table class="table">
-  <thead><tr><th>Namn</th><th>Grupp</th><th>Incheckad sedan</th></tr></thead>
+  <thead><tr><th>Namn</th><th>Incheckad sedan</th></tr></thead>
   <tbody>
-    {% for child in checked_in %}
+    {% for member in checked_in %}
     <tr>
-      <td>{{ child.full_name() }}</td>
-      <td>{{ child.group_class or '-' }}</td>
-      <td>{{ child.status_updated_at.strftime('%H:%M') if child.status_updated_at else '-' }}</td>
+      <td>{{ member.full_name() }}</td>
+      <td>{{ member.status_updated_at.strftime('%H:%M') if member.status_updated_at else '-' }}</td>
     </tr>
     {% else %}
-    <tr><td colspan="3">Inga barn incheckade just nu.</td></tr>
+    <tr><td colspan="2">Ingen incheckad just nu.</td></tr>
     {% endfor %}
   </tbody>
 </table>

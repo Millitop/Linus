@@ -2,8 +2,8 @@
 
 Data minimization is deliberate: no national ID numbers, home addresses,
 or photos are stored anywhere in this schema -- only what is needed to
-issue a card, contact a guardian, and keep a safety-relevant attendance
-log. See docs/gdpr-and-retention.md for the reasoning.
+issue a card and keep a safety/statistics-relevant check-in log. See
+docs/gdpr-and-retention.md for the reasoning.
 """
 from datetime import datetime, timezone
 
@@ -17,14 +17,18 @@ def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
-class Child(db.Model):
-    __tablename__ = "children"
+class Member(db.Model):
+    """A young person who self-registers for a gårdskort at the
+    fritidsgård. No guardian/parent link is required -- members are
+    older youths who sign themselves up.
+    """
+
+    __tablename__ = "members"
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
-    group_class = db.Column(db.String(40), nullable=True)
-    birth_year = db.Column(db.Integer, nullable=True)
+    phone = db.Column(db.String(40), nullable=True)
 
     current_status = db.Column(db.String(10), nullable=False, default="out")  # "in" | "out"
     status_updated_at = db.Column(db.DateTime, nullable=True)
@@ -35,33 +39,17 @@ class Child(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=utcnow)
     deleted_at = db.Column(db.DateTime, nullable=True)
 
-    guardians = db.relationship(
-        "GuardianContact", backref="child", cascade="all, delete-orphan", lazy="selectin"
+    emergency_contacts = db.relationship(
+        "EmergencyContact", backref="member", cascade="all, delete-orphan", lazy="selectin"
     )
-    cards = db.relationship("Card", backref="child", cascade="all, delete-orphan", lazy="selectin")
-    log_entries = db.relationship("LogEntry", backref="child", lazy="dynamic")
+    cards = db.relationship("Card", backref="member", cascade="all, delete-orphan", lazy="selectin")
+    log_entries = db.relationship("LogEntry", backref="member", lazy="dynamic")
 
     def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
     def active_card(self):
         return next((c for c in self.cards if c.active), None)
-
-    def is_adult(self, threshold_years: int, as_of_year: int | None = None) -> bool:
-        """True once the child has reached ``threshold_years`` of age.
-
-        Only ``birth_year`` is stored (no full birth date, by deliberate
-        data minimization -- see docs/gdpr-and-retention.md), so this is
-        conservative: it counts a child as an adult starting from
-        January 1st of the year they turn ``threshold_years``, which may
-        be a few months before their actual birthday. That's an
-        acceptable, privacy-friendly trade-off for an automatic erasure
-        trigger.
-        """
-        if not self.birth_year or threshold_years <= 0:
-            return False
-        current_year = as_of_year if as_of_year is not None else utcnow().year
-        return current_year - self.birth_year >= threshold_years
 
     def set_retrieval_pin(self, raw_pin: str) -> None:
         self.retrieval_pin_hash = generate_password_hash(raw_pin)
@@ -71,27 +59,43 @@ class Child(db.Model):
             return False
         return check_password_hash(self.retrieval_pin_hash, raw_pin)
 
+    def last_activity_at(self):
+        """Timestamp of the member's most recent check-in/out, used by
+        the inactivity-based retention job. Falls back to
+        ``created_at`` for a member who registered but never checked in.
+        """
+        latest = (
+            self.log_entries.filter(LogEntry.event_type.in_(["check_in", "check_out"]))
+            .order_by(LogEntry.timestamp.desc())
+            .first()
+        )
+        return latest.timestamp if latest else self.created_at
+
     def __repr__(self) -> str:  # pragma: no cover
-        return f"<Child {self.id} {self.full_name()!r}>"
+        return f"<Member {self.id} {self.full_name()!r}>"
 
 
-class GuardianContact(db.Model):
-    __tablename__ = "guardian_contacts"
+class EmergencyContact(db.Model):
+    """Optional contact for a member -- not required to register, since
+    members are older youths signing themselves up (not a guardian-run
+    enrollment). Staff or the member can add one later if wanted.
+    """
+
+    __tablename__ = "emergency_contacts"
 
     id = db.Column(db.Integer, primary_key=True)
-    child_id = db.Column(db.Integer, db.ForeignKey("children.id"), nullable=False)
+    member_id = db.Column(db.Integer, db.ForeignKey("members.id"), nullable=False)
     name = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(40), nullable=True)
     email = db.Column(db.String(120), nullable=True)
-    relationship_label = db.Column(db.String(40), nullable=True)  # e.g. "vårdnadshavare"
-    primary_contact = db.Column(db.Boolean, nullable=False, default=False)
+    relationship_label = db.Column(db.String(40), nullable=True)  # e.g. "förälder", "syskon"
 
 
 class Card(db.Model):
     __tablename__ = "cards"
 
     id = db.Column(db.Integer, primary_key=True)
-    child_id = db.Column(db.Integer, db.ForeignKey("children.id"), nullable=False)
+    member_id = db.Column(db.Integer, db.ForeignKey("members.id"), nullable=False)
     token = db.Column(db.String(64), unique=True, nullable=False, index=True)
     created_at = db.Column(db.DateTime, nullable=False, default=utcnow)
     revoked_at = db.Column(db.DateTime, nullable=True)
@@ -126,16 +130,17 @@ class StaffUser(UserMixin, db.Model):
 
 
 class LogEntry(db.Model):
-    """Unified audit log for every registration, login/retrieval and
+    """Unified audit log for every registration, card retrieval and
     check-in/out event. See docs/event-taxonomy.md for the full list of
-    event_type values and when each is written.
+    event_type values and when each is written. Also the source data for
+    the statistics dashboard (app/admin/stats.py).
     """
 
     __tablename__ = "log_entries"
 
     id = db.Column(db.Integer, primary_key=True)
     event_type = db.Column(db.String(40), nullable=False, index=True)
-    child_id = db.Column(db.Integer, db.ForeignKey("children.id"), nullable=True, index=True)
+    member_id = db.Column(db.Integer, db.ForeignKey("members.id"), nullable=True, index=True)
     staff_user_id = db.Column(db.Integer, db.ForeignKey("staff_users.id"), nullable=True)
     timestamp = db.Column(db.DateTime, nullable=False, default=utcnow, index=True)
     source = db.Column(db.String(20), nullable=False, default="web-app")  # gate-scanner|web-app|admin|system

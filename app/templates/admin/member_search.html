@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Sök medlem · {{ site_name }}{% endblock %}
+{% block content %}
+<h1>Sök medlem</h1>
+<p class="text-muted">Ingen fullständig lista visas här — sök på namn för att hitta en person, t.ex. vid borttappat kort.</p>
+
+<form method="get" class="card-box narrow">
+  {{ form.query.label }}
+  {{ form.query(size=32, autofocus=true, value=form.query.data or "") }}
+  <button class="btn primary" type="submit">Sök</button>
+</form>
+
+{% if form.query.data %}
+<table class="table">
+  <thead><tr><th>Namn</th><th>Status</th><th></th></tr></thead>
+  <tbody>
+    {% for member in results %}
+    <tr>
+      <td>{{ member.full_name() }}</td>
+      <td><span class="badge {{ 'badge-in' if member.current_status == 'in' else 'badge-out' }}">
+        {{ 'Incheckad' if member.current_status == 'in' else 'Utcheckad' }}
+      </span></td>
+      <td class="row-actions">
+        <a href="{{ url_for('admin.member_detail', member_id=member.id) }}">Visa</a>
+        <a href="{{ url_for('admin.edit_member', member_id=member.id) }}">Redigera</a>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3">Inga träffar.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

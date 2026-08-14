@@ -1,7 +1,7 @@
 """Nightly maintenance job: auto-checkout everyone still marked "in",
 purge log entries older than LOG_RETENTION_DAYS (0 disables purging), and
-erase personal data for any child who has reached ADULT_AGE_YEARS
-(0 disables this).
+erase personal data for members inactive for
+INACTIVE_MONTHS_BEFORE_ERASURE months (0 disables this).
 
 Intended to run once per night via a systemd timer or cron, e.g.:
 
@@ -14,7 +14,7 @@ from datetime import datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app import create_app  # noqa: E402
-from app.admin.services import purge_children_who_turned_adult  # noqa: E402
+from app.admin.services import purge_inactive_members  # noqa: E402
 from app.card.services import auto_checkout_all  # noqa: E402
 from app.extensions import db  # noqa: E402
 from app.models import LogEntry  # noqa: E402
@@ -33,15 +33,15 @@ def main() -> None:
     app = create_app()
     with app.app_context():
         checked_out = auto_checkout_all()
-        print(f"Automatisk utcheckning: {checked_out} barn.")
+        print(f"Automatisk utcheckning: {checked_out} personer.")
 
         retention_days = app.config["LOG_RETENTION_DAYS"]
         deleted = purge_old_logs(retention_days)
         print(f"Gallrade {deleted} loggposter äldre än {retention_days} dagar.")
 
-        adult_age = app.config["ADULT_AGE_YEARS"]
-        erased = purge_children_who_turned_adult(adult_age)
-        print(f"Raderade personuppgifter för {erased} barn som nått {adult_age} års ålder.")
+        inactive_months = app.config["INACTIVE_MONTHS_BEFORE_ERASURE"]
+        erased = purge_inactive_members(inactive_months)
+        print(f"Raderade personuppgifter för {erased} medlemmar inaktiva i {inactive_months}+ månader.")
 
 
 if __name__ == "__main__":

@@ -76,6 +76,7 @@ label input, label select { display: block; width: 100%; margin-top: 0.3rem; pad
 .table { width: 100%; border-collapse: collapse; background: var(--color-surface); }
 .table th, .table td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--color-border); font-size: 0.92rem; }
 .row-actions a { margin-right: 0.75rem; }
+.text-muted { color: var(--color-muted); font-size: 0.9rem; }
 
 .badge { padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
 .badge-in { background: #e1f5ea; color: var(--color-primary-dark); }
@@ -94,6 +95,22 @@ label input, label select { display: block; width: 100%; margin-top: 0.3rem; pad
 .flash-info { background: #e3edfb; color: #1f4e8a; }
 
 .qr-image { width: 220px; height: 220px; image-rendering: pixelated; border: 8px solid white; border-radius: 8px; }
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 160px;
+  padding: 1rem 0.5rem 0;
+  margin-bottom: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+.bar-chart-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex: 1 0 auto; min-width: 18px; height: 100%; }
+.bar-chart-bar { width: 100%; min-height: 2px; background: var(--color-primary); border-radius: 3px 3px 0 0; }
+.bar-chart-label { font-size: 0.7rem; color: var(--color-muted); margin-top: 0.3rem; white-space: nowrap; }
 
 .pagination { display: flex; gap: 1rem; align-items: center; margin-top: 1rem; font-size: 0.9rem; }
 

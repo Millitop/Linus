@@ -23,8 +23,8 @@ class Config:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Yard/site display name, shown in templates and on the kiosk screen.
-    SITE_NAME = os.environ.get("SITE_NAME", "Fritidshemmet")
+    # Site display name, shown in templates and on the kiosk screen.
+    SITE_NAME = os.environ.get("SITE_NAME", "Fritidsgården")
 
     # Card / token behaviour
     CARD_TOKEN_BYTES = int(os.environ.get("CARD_TOKEN_BYTES", "32"))
@@ -39,10 +39,10 @@ class Config:
     # GDPR log retention, in days. 0 disables automatic purging.
     LOG_RETENTION_DAYS = int(os.environ.get("LOG_RETENTION_DAYS", "365"))
 
-    # A child's personal data is automatically erased once they reach this
-    # age (computed from birth_year only -- see docs/gdpr-and-retention.md).
-    # 0 disables automatic age-based purging.
-    ADULT_AGE_YEARS = int(os.environ.get("ADULT_AGE_YEARS", "18"))
+    # A member's personal data is automatically erased once they've had no
+    # check-in/out activity for this many months (see
+    # docs/gdpr-and-retention.md). 0 disables automatic inactivity purging.
+    INACTIVE_MONTHS_BEFORE_ERASURE = int(os.environ.get("INACTIVE_MONTHS_BEFORE_ERASURE", "12"))
 
     # Future extension point only -- no real cloud backend is implemented.
     SYNC_ENABLED = _bool_env("SYNC_ENABLED", False)

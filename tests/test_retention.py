@@ -1,23 +1,23 @@
 from datetime import datetime, timedelta, timezone
 
-from app.admin.services import purge_children_who_turned_adult
+from app.admin.services import purge_inactive_members
 from app.card.services import auto_checkout_all, issue_card
 from app.extensions import db
-from app.models import Child, GuardianContact, LogEntry
+from app.models import EmergencyContact, LogEntry, Member
 from scripts.retention_cleanup import purge_old_logs
 
 
 def test_auto_checkout_all_resets_everyone_checked_in(app):
-    child = Child(first_name="Hanna", last_name="Holm", current_status="in")
-    db.session.add(child)
+    member = Member(first_name="Hanna", last_name="Holm", current_status="in")
+    db.session.add(member)
     db.session.commit()
-    issue_card(child)
+    issue_card(member)
     db.session.commit()
 
     count = auto_checkout_all()
 
     assert count == 1
-    assert db.session.get(Child, child.id).current_status == "out"
+    assert db.session.get(Member, member.id).current_status == "out"
 
 
 def test_purge_old_logs_removes_entries_past_retention(app):
@@ -46,44 +46,58 @@ def test_purge_disabled_when_retention_days_is_zero(app):
     assert LogEntry.query.count() == 1
 
 
-def test_purge_children_who_turned_adult_erases_only_adults(app):
-    this_year = datetime.now(timezone.utc).year
-
-    adult = Child(first_name="Liv", last_name="Larsson", birth_year=this_year - 18, active=True)
-    adult.set_retrieval_pin("111111")
-    db.session.add(adult)
-    db.session.add(GuardianContact(child=adult, name="Vårdnadshavare Liv"))
+def _member_with_last_activity(first_name, days_ago, active=True):
+    member = Member(first_name=first_name, last_name="Testsson", active=active)
+    member.set_retrieval_pin("111111")
+    db.session.add(member)
+    db.session.add(EmergencyContact(member=member, name=f"Kontakt {first_name}"))
     db.session.commit()
-    issue_card(adult)
+    issue_card(member)
+    entry = LogEntry(event_type="check_in", member_id=member.id, source="gate-scanner")
+    entry.timestamp = datetime.now(timezone.utc) - timedelta(days=days_ago)
+    db.session.add(entry)
     db.session.commit()
+    return member
 
-    minor = Child(first_name="Moa", last_name="Malm", birth_year=this_year - 10, active=True)
-    db.session.add(minor)
-    db.session.commit()
 
-    erased = purge_children_who_turned_adult(18)
+def test_purge_inactive_members_erases_only_the_inactive_one(app):
+    inactive = _member_with_last_activity("Liv", days_ago=400)
+    active_recent = _member_with_last_activity("Moa", days_ago=5)
+
+    erased = purge_inactive_members(12)
 
     assert erased == 1
 
-    refreshed_adult = db.session.get(Child, adult.id)
-    assert refreshed_adult.active is False
-    assert refreshed_adult.first_name == "Raderad"
-    assert refreshed_adult.guardians == []
-    assert refreshed_adult.active_card() is None
-    assert LogEntry.query.filter_by(event_type="child_data_deleted", child_id=adult.id).first() is not None
+    refreshed_inactive = db.session.get(Member, inactive.id)
+    assert refreshed_inactive.active is False
+    assert refreshed_inactive.first_name == "Raderad"
+    assert refreshed_inactive.emergency_contacts == []
+    assert refreshed_inactive.active_card() is None
+    deletion_log = LogEntry.query.filter_by(event_type="member_data_deleted", member_id=inactive.id).first()
+    assert deletion_log is not None
 
-    refreshed_minor = db.session.get(Child, minor.id)
-    assert refreshed_minor.active is True
-    assert refreshed_minor.first_name == "Moa"
+    refreshed_active = db.session.get(Member, active_recent.id)
+    assert refreshed_active.active is True
+    assert refreshed_active.first_name == "Moa"
 
 
-def test_purge_children_who_turned_adult_disabled_when_threshold_is_zero(app):
-    this_year = datetime.now(timezone.utc).year
-    adult = Child(first_name="Nils", last_name="Nyberg", birth_year=this_year - 40, active=True)
-    db.session.add(adult)
+def test_purge_inactive_members_uses_registration_date_if_never_checked_in(app):
+    member = Member(first_name="Nils", last_name="Nyberg", active=True)
+    db.session.add(member)
+    db.session.commit()
+    member.created_at = datetime.now(timezone.utc) - timedelta(days=400)
     db.session.commit()
 
-    erased = purge_children_who_turned_adult(0)
+    erased = purge_inactive_members(12)
+
+    assert erased == 1
+    assert db.session.get(Member, member.id).active is False
+
+
+def test_purge_inactive_members_disabled_when_threshold_is_zero(app):
+    inactive = _member_with_last_activity("Ove", days_ago=9999)
+
+    erased = purge_inactive_members(0)
 
     assert erased == 0
-    assert db.session.get(Child, adult.id).active is True
+    assert db.session.get(Member, inactive.id).active is True

@@ -63,7 +63,7 @@ sudo cp deploy/hostapd/dnsmasq.conf /etc/dnsmasq.d/gardskort.conf
 sudo systemctl enable --now hostapd dnsmasq
 ```
 
-Om fritidshemmet redan har ett fungerande Wi-Fi kan detta steg hoppas
+Om fritidsgården redan har ett fungerande Wi-Fi kan detta steg hoppas
 över -- koppla då Pi:n till det nätverket istället (`raspi-config` →
 System Options → Wireless LAN).
 
