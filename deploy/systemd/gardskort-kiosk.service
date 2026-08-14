@@ -3,12 +3,18 @@ Description=Gardskort kiosk browser (gate scan screen)
 After=gardskort-web.service graphical.target
 Requires=gardskort-web.service
 
+# Requires Raspberry Pi OS WITH DESKTOP (not Lite) and an autologin
+# graphical session as User= below -- see deploy/raspi-setup.md.
+# The browser binary is called "chromium" on current Raspberry Pi OS
+# (Bookworm+) and "chromium-browser" on older Buster-based images;
+# verify with `which chromium || which chromium-browser` before
+# enabling this unit and adjust ExecStart if it doesn't match.
 [Service]
 Type=simple
 User=pi
 Environment=DISPLAY=:0
 ExecStartPre=/bin/sleep 5
-ExecStart=/usr/bin/chromium-browser --kiosk --noerrdialogs --disable-infobars --incognito http://localhost:5000/gate
+ExecStart=/usr/bin/chromium --kiosk --noerrdialogs --disable-infobars --disable-pinch --incognito http://localhost:5000/gate
 Restart=on-failure
 RestartSec=3
 

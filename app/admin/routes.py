@@ -29,18 +29,54 @@ def require_login():
     pass
 
 
+DASHBOARD_PERIOD_CHOICES = (7, 30, 90)
+
+
 @admin_bp.route("/")
 def dashboard():
-    visits_by_day = stats.visits_by_day(days=14)
-    popular_hours = stats.popular_hours(days=30)
+    period = request.args.get("period", 30, type=int)
+    if period not in DASHBOARD_PERIOD_CHOICES:
+        period = 30
+
+    visits_by_day = stats.visits_by_day(days=period)
+    popular_hours = stats.popular_hours(days=period)
+    visits_by_week = stats.visits_by_week(weeks=12)
+    current_visitors, previous_visitors = stats.unique_visitors_period_comparison(days=period)
+
     return render_template(
         "admin/stats_dashboard.html",
+        period=period,
+        period_choices=DASHBOARD_PERIOD_CHOICES,
         active_now=stats.active_now(),
         visits_by_day=visits_by_day,
         max_visits_by_day=max((count for _, count in visits_by_day), default=0),
+        day_label_step=max(1, len(visits_by_day) // 10),
         popular_hours=popular_hours,
         max_popular_hours=max((count for _, count in popular_hours), default=0),
-        unique_visitors=stats.unique_visitors(days=30),
+        visits_by_week=visits_by_week,
+        max_visits_by_week=max((count for _, count in visits_by_week), default=0),
+        unique_visitors=current_visitors,
+        previous_unique_visitors=previous_visitors,
+        avg_visit_duration=stats.average_visit_duration_minutes(days=period),
+    )
+
+
+@admin_bp.route("/stats/export.csv")
+def stats_export():
+    period = request.args.get("period", 30, type=int)
+    if period not in DASHBOARD_PERIOD_CHOICES:
+        period = 30
+
+    buffer = io.StringIO()
+    writer = csv.writer(buffer)
+    writer.writerow(["date", "besök"])
+    for day, count in stats.visits_by_day(days=period):
+        writer.writerow([day, count])
+
+    return Response(
+        buffer.getvalue(),
+        mimetype="text/csv",
+        headers={"Content-Disposition": f"attachment; filename=besoksstatistik-{period}dagar.csv"},
     )
 
 

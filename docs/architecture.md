@@ -39,12 +39,18 @@
   enda process med `gunicorn` på Pi:n. Ingen separat frontend-build.
 - **SQLite** — en enda fil, ingen extern databasserver. Tillräckligt för
   en fritidsgårds skala (hundratals medlemmar, en dörr).
-- **Grind-scanning** — i v1 är en USB HID-handskanner primärt
-  gränssnitt: den beter sig som ett tangentbord och "skriver in" kortets
-  token i ett fokuserat textfält på kiosk-sidan (`/gate`), som sedan
-  skickas till `/gate/scan` via JavaScript (`fetch`). En valfri
-  kamerabaserad fallback (`scanner/camera_scan.py`) finns för den som
-  saknar handskanner.
+- **Grind-scanning** — en USB HID-handskanner är primärt gränssnitt: den
+  beter sig som ett tangentbord och "skriver in" kortets token i ett
+  fokuserat textfält på kiosk-sidan (`/gate`), som sedan skickas till
+  `/gate/scan` via JavaScript (`fetch`). En valfri kamerabaserad
+  fallback (`scanner/camera_scan.py`) finns för den som saknar
+  handskanner.
+- **NFC-tagg vid dörren** — alternativ till att visa QR: en passiv
+  NFC-tagg pekar telefonens webbläsare mot `/gate/tap` (ingen app
+  krävs, fungerar på iPhone och Android). Eftersom taggen är delad och
+  inte vet vem som taggar identifieras personen via en cookie som sätts
+  när de registrerar sig eller hämtar sitt kort. Se
+  `deploy/nfc-tag-setup.md`.
 - **Statistik istället för lista** — `app/admin/stats.py` innehåller
   bara aggregerande frågor mot loggen (`LogEntry`). Det finns ingen
   route som returnerar alla medlemmar; personal söker enskilda personer

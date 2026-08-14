@@ -3,6 +3,18 @@
 {% block content %}
 <h1>Statistik</h1>
 
+<div class="period-select">
+  Period:
+  {% for choice in period_choices %}
+    {% if choice == period %}
+      <strong>{{ choice }} dagar</strong>
+    {% else %}
+      <a href="{{ url_for('admin.dashboard', period=choice) }}">{{ choice }} dagar</a>
+    {% endif %}
+  {% endfor %}
+  · <a href="{{ url_for('admin.stats_export', period=period) }}">Exportera CSV</a>
+</div>
+
 <div class="stat-row">
   <div class="stat-box">
     <span class="stat-number">{{ active_now }}</span>
@@ -10,22 +22,42 @@
   </div>
   <div class="stat-box">
     <span class="stat-number">{{ unique_visitors }}</span>
-    <span class="stat-label">unika besökare (30 dagar)</span>
+    <span class="stat-label">
+      unika besökare ({{ period }} dagar)
+      {% if previous_unique_visitors %}
+        <br>({{ previous_unique_visitors }} föregående period)
+      {% endif %}
+    </span>
+  </div>
+  <div class="stat-box">
+    <span class="stat-number">{{ "%d min"|format(avg_visit_duration) if avg_visit_duration is not none else "–" }}</span>
+    <span class="stat-label">genomsnittlig besökstid</span>
   </div>
 </div>
 
-<h2>Besök senaste 14 dagarna</h2>
-<div class="bar-chart">
+<h2>Besök senaste {{ period }} dagarna</h2>
+<div class="bar-chart bar-chart-autoscroll">
   {% for day, count in visits_by_day %}
   <div class="bar-chart-col">
     <div class="bar-chart-bar" style="height: {{ (count / max_visits_by_day * 100) if max_visits_by_day else 0 }}%"
          title="{{ day }}: {{ count }} besök"></div>
-    <span class="bar-chart-label">{{ day[5:] }}</span>
+    <span class="bar-chart-label">{{ day[5:] if (loop.index0 % day_label_step == 0 or loop.last) else "" }}</span>
   </div>
   {% endfor %}
 </div>
 
-<h2>Populära tider (senaste 30 dagarna)</h2>
+<h2>Trend, senaste 12 veckorna</h2>
+<div class="bar-chart">
+  {% for week, count in visits_by_week %}
+  <div class="bar-chart-col">
+    <div class="bar-chart-bar" style="height: {{ (count / max_visits_by_week * 100) if max_visits_by_week else 0 }}%"
+         title="{{ week }}: {{ count }} besök"></div>
+    <span class="bar-chart-label">{{ week[6:] }}</span>
+  </div>
+  {% endfor %}
+</div>
+
+<h2>Populära tider (senaste {{ period }} dagarna)</h2>
 <div class="bar-chart">
   {% for hour, count in popular_hours %}
   <div class="bar-chart-col">
@@ -37,4 +69,14 @@
 </div>
 
 <p><a class="btn" href="{{ url_for('admin.attendance_live') }}">Vem är incheckad just nu →</a></p>
+
+<script>
+  // The daily chart can have more columns than fit on screen for
+  // longer periods -- scroll it to the right by default so today's
+  // bar (the most relevant one) is visible without the viewer having
+  // to notice and scroll manually.
+  document.querySelectorAll(".bar-chart-autoscroll").forEach((el) => {
+    el.scrollLeft = el.scrollWidth;
+  });
+</script>
 {% endblock %}

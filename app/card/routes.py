@@ -1,4 +1,15 @@
-from flask import Blueprint, Response, abort, flash, jsonify, render_template, request, url_for
+from flask import (
+    Blueprint,
+    Response,
+    abort,
+    flash,
+    jsonify,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 from app.admin.services import register_member
 from app.card.services import process_gate_scan
@@ -7,6 +18,24 @@ from app.models import Card, LogEntry, Member
 from app.utils.qr import token_to_qr_png_bytes
 
 card_bp = Blueprint("card", __name__)
+
+# Cookie that lets a browser "remember" which card it belongs to, so a
+# phone can just tap a passive NFC tag at the door (/gate/tap) instead
+# of showing its QR code to a reader. Same trust model as the QR token
+# itself -- just delivered as a cookie instead of a picture.
+REMEMBER_COOKIE_NAME = "gardskort_token"
+REMEMBER_COOKIE_MAX_AGE = 60 * 60 * 24 * 730  # ~2 years
+
+
+def _remember_card(response: Response, token: str) -> Response:
+    response.set_cookie(
+        REMEMBER_COOKIE_NAME,
+        token,
+        max_age=REMEMBER_COOKIE_MAX_AGE,
+        httponly=True,
+        samesite="Lax",
+    )
+    return response
 
 
 @card_bp.route("/join", methods=["GET", "POST"])
@@ -20,6 +49,7 @@ def join():
     new_pin = None
     new_qr_url = None
     new_member_name = None
+    new_token = None
     if request.method == "POST":
         first_name = (request.form.get("first_name") or "").strip()
         last_name = (request.form.get("last_name") or "").strip()
@@ -34,10 +64,16 @@ def join():
             new_pin = result.raw_pin
             new_qr_url = url_for("card.card_qr_image", card_id=result.card_id)
             new_member_name = result.member.full_name()
+            new_token = result.member.active_card().token
 
-    return render_template(
-        "card/join.html", new_pin=new_pin, new_qr_url=new_qr_url, new_member_name=new_member_name
+    response = make_response(
+        render_template(
+            "card/join.html", new_pin=new_pin, new_qr_url=new_qr_url, new_member_name=new_member_name
+        )
     )
+    if new_token:
+        response = _remember_card(response, new_token)
+    return response
 
 
 @card_bp.route("/card/<int:card_id>/qr.png")
@@ -58,11 +94,18 @@ def card_qr_image(card_id: int):
 @limiter.limit("10 per minute")
 def retrieve_card():
     """Lets a member re-view their QR gårdskort using their name + PIN,
-    in case the original screenshot was lost. Intended to be used over
-    the Raspberry Pi's own local Wi-Fi access point.
+    in case the original screenshot was lost, or to (re-)identify their
+    browser so /gate/tap works. Intended to be used over the Raspberry
+    Pi's own local Wi-Fi access point.
+
+    Supports an optional ?next=/gate/tap redirect target: someone who
+    taps the NFC tag with a browser that doesn't have the "remember me"
+    cookie yet gets sent here first, and once they identify themselves
+    they're bounced straight back to complete the check-in/out.
     """
     qr_url = None
     member_name = None
+    next_url = request.values.get("next") or None
     if request.method == "POST":
         first_name = (request.form.get("first_name") or "").strip()
         last_name = (request.form.get("last_name") or "").strip()
@@ -82,10 +125,18 @@ def retrieve_card():
             else:
                 db.session.add(LogEntry(event_type="card_retrieval", member_id=match.id, source="web-app"))
                 db.session.commit()
+
+                if next_url:
+                    return _remember_card(make_response(redirect(next_url)), card.token)
+
                 qr_url = f"/card/{card.id}/qr.png"
                 member_name = match.full_name()
+                page = render_template(
+                    "card/retrieve.html", qr_url=qr_url, member_name=member_name, next_url=next_url
+                )
+                return _remember_card(make_response(page), card.token)
 
-    return render_template("card/retrieve.html", qr_url=qr_url, member_name=member_name)
+    return render_template("card/retrieve.html", qr_url=qr_url, member_name=member_name, next_url=next_url)
 
 
 @card_bp.route("/gate/scan", methods=["POST"])
@@ -113,3 +164,20 @@ def gate_scan():
 @card_bp.route("/gate")
 def gate_kiosk():
     return render_template("gate/scan_kiosk.html")
+
+
+@card_bp.route("/gate/tap")
+@limiter.limit("120 per minute")
+def gate_tap():
+    """Endpoint a passive NFC tag at the door points its phone at (see
+    deploy/nfc-tag-setup.md). A tap opens this URL in the phone's own
+    browser (no app needed on either iOS or Android) -- we identify the
+    member via the "remember me" cookie set at /join or /card/retrieve,
+    since the tag itself is shared and carries no per-person info.
+    """
+    token = request.cookies.get(REMEMBER_COOKIE_NAME)
+    if not token:
+        return redirect(url_for("card.retrieve_card", next=url_for("card.gate_tap")))
+
+    result = process_gate_scan(token, source="gate-tag")
+    return render_template("gate/tap_result.html", result=result)

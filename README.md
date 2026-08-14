@@ -19,13 +19,17 @@ på alla telefoner utan att någon behöver installera en app.
 - **Ingen bläddringsbar medlemslista** — adminvyn visar statistik, inte
   en lista över alla registrerade. En enskild person går att söka upp
   vid behov (t.ex. borttappat kort) på `/admin/members/search`.
-- **Statistik** — antal aktiva just nu, besök över tid, populära tider
-  och antal unika besökare, som en instrumentpanel för personal.
+- **Statistik** — antal aktiva just nu, besök över tid (dag/vecka),
+  populära tider, unika besökare med periodjämförelse, genomsnittlig
+  besökstid, samt CSV-export för rapportering.
 - **Hämta kort igen** — den som tappat bort sin QR-kod kan hämta den
   igen med namn + PIN-kod, t.ex. via Pi:ns egna Wi-Fi.
 - **Grind-skanning** — en USB-handskanner (eller valfritt en kamera) vid
   dörren läser QR-koden och togglar in/ut-status, med tydlig bekräftelse
   på skärmen.
+- **NFC-tagg vid dörren** — alternativ till QR: besökaren taggar sin
+  egen telefon mot en passiv NFC-tagg (`/gate/tap`), ingen app krävs på
+  varken iPhone eller Android. Se [`deploy/nfc-tag-setup.md`](deploy/nfc-tag-setup.md).
 - **Live-närvaro & logg** — personal ser vilka som är incheckade just
   nu, samt en fullständig, exporterbar audit-logg över alla händelser.
 - **GDPR-medvetet** — minimal datainsamling, lokal lagring (ingen
@@ -63,10 +67,12 @@ pytest
 
 ## Driftsättning på Raspberry Pi
 
-Se [`deploy/raspi-setup.md`](deploy/raspi-setup.md) för fullständiga
-installationssteg (hårdvara, autostart via systemd, lokal Wi-Fi-
-accesspunkt) och [`docs/pi-hardware-checklist.md`](docs/pi-hardware-checklist.md)
-för en checklista att bocka av på plats.
+`./deploy/install.sh` automatiserar det mesta (venv, beroenden,
+databas, systemd). Se [`deploy/raspi-setup.md`](deploy/raspi-setup.md)
+för fullständiga installationssteg (hårdvara, headless- vs.
+kiosk-profil, lokal Wi-Fi-accesspunkt) och
+[`docs/pi-hardware-checklist.md`](docs/pi-hardware-checklist.md) för
+en checklista att bocka av på plats.
 
 ## Mer dokumentation
 

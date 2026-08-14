@@ -77,6 +77,8 @@ label input, label select { display: block; width: 100%; margin-top: 0.3rem; pad
 .table th, .table td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--color-border); font-size: 0.92rem; }
 .row-actions a { margin-right: 0.75rem; }
 .text-muted { color: var(--color-muted); font-size: 0.9rem; }
+.period-select { margin-bottom: 1rem; color: var(--color-muted); font-size: 0.9rem; }
+.period-select a, .period-select strong { margin: 0 0.25rem; }
 
 .badge { padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
 .badge-in { background: #e1f5ea; color: var(--color-primary-dark); }
@@ -108,7 +110,7 @@ label input, label select { display: block; width: 100%; margin-top: 0.3rem; pad
   border-radius: 12px;
   overflow-x: auto;
 }
-.bar-chart-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex: 1 0 auto; min-width: 18px; height: 100%; }
+.bar-chart-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex: 0 0 20px; width: 20px; height: 100%; }
 .bar-chart-bar { width: 100%; min-height: 2px; background: var(--color-primary); border-radius: 3px 3px 0 0; }
 .bar-chart-label { font-size: 0.7rem; color: var(--color-muted); margin-top: 0.3rem; white-space: nowrap; }
 
@@ -119,6 +121,7 @@ label input, label select { display: block; width: 100%; margin-top: 0.3rem; pad
 .kiosk { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 1rem; }
 .kiosk h1 { font-size: 2rem; margin-bottom: 0; }
 .kiosk-hint { color: #9aa5b1; margin-top: 0.25rem; }
+.kiosk-hint a { color: #8fd0b8; }
 .kiosk-hidden-input { position: absolute; opacity: 0; height: 0; width: 0; border: none; }
 .kiosk-result {
   margin-top: 2rem;

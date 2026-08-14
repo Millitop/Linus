@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="kiosk-body">
+  <main class="kiosk">
+    <h1>{{ site_name }}</h1>
+
+    {% if result.status == "checked_in" %}
+      <div class="kiosk-result kiosk-in">
+        <span>{{ result.member.full_name() }} incheckad ✓</span>
+      </div>
+    {% elif result.status == "checked_out" %}
+      <div class="kiosk-result kiosk-out">
+        <span>{{ result.member.full_name() }} utcheckad ✓</span>
+      </div>
+    {% elif result.status == "debounced" %}
+      <div class="kiosk-result kiosk-idle">
+        <span>{{ result.message }}</span>
+      </div>
+    {% else %}
+      <div class="kiosk-result kiosk-error">
+        <span>{{ result.message or "Något gick fel." }}</span>
+      </div>
+      <p class="kiosk-hint"><a href="{{ url_for('card.retrieve_card') }}">Identifiera dig igen →</a></p>
+    {% endif %}
+  </main>
+</body>
+</html>

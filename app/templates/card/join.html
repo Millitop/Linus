@@ -21,7 +21,9 @@
 
       {% if new_pin %}
         <h1>Välkommen, {{ new_member_name }}!</h1>
-        <p>Det här är ditt gårdskort — visa QR-koden vid grinden för att checka in och ut.</p>
+        <p>Det här är ditt gårdskort — visa QR-koden vid grinden för att checka in och ut,
+           eller tagga telefonen mot NFC-läsaren vid dörren om gården har en (den här telefonen
+           kommer nu ihåg dig).</p>
         <p><img src="{{ new_qr_url }}" alt="Gårdskort QR-kod" class="qr-image"></p>
         <p><a class="btn" href="{{ new_qr_url }}" download="gardskort.png">Ladda ner QR-koden</a></p>
         <p>Tips: ta en skärmdump så har du kortet sparat även utan wifi.</p>

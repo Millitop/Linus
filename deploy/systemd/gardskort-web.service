@@ -7,9 +7,12 @@ Type=simple
 User=pi
 WorkingDirectory=/home/pi/linus
 EnvironmentFile=/home/pi/linus/.env
+Environment=PYTHONUNBUFFERED=1
 ExecStart=/home/pi/linus/.venv/bin/gunicorn --workers 2 --bind 0.0.0.0:5000 wsgi:app
 Restart=on-failure
 RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
