@@ -136,3 +136,35 @@ label input, label select { display: block; width: 100%; margin-top: 0.3rem; pad
 .kiosk-in { background: #1e6f4c; color: white; }
 .kiosk-out { background: #4a5568; color: white; }
 .kiosk-error { background: #8a2d24; color: white; }
+
+/* Printable door sign */
+.poster-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.poster-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  text-align: center;
+}
+.poster-page h1 { font-size: 2.2rem; margin-bottom: 2rem; }
+.poster-block {
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.poster-block h2 { margin-top: 0; }
+.poster-qr { width: 260px; height: 260px; image-rendering: pixelated; }
+.poster-url { font-size: 0.8rem; color: var(--color-muted); word-break: break-all; margin: 0.75rem 0; }
+
+@media print {
+  .no-print { display: none !important; }
+  .poster-page { max-width: 100%; }
+  .poster-block { break-inside: avoid; border-color: #000; }
+}

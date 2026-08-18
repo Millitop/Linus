@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skylt · {{ site_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="poster-toolbar no-print">
+    <a href="{{ url_for('admin.dashboard') }}">← Tillbaka</a>
+    <button class="btn primary" onclick="window.print()">Skriv ut</button>
+  </div>
+
+  <main class="poster-page">
+    <h1>{{ site_name }}</h1>
+
+    <section class="poster-block">
+      <h2>Bli medlem</h2>
+      <img src="data:image/png;base64,{{ join_qr }}" alt="QR-kod till registrering" class="poster-qr">
+      <p class="poster-url">{{ join_url }}</p>
+      <p>Skanna med kameran — ingen app behövs. Du får ditt eget gårdskort direkt.</p>
+    </section>
+
+    <section class="poster-block">
+      <h2>Redan medlem? Checka in/ut</h2>
+      <img src="data:image/png;base64,{{ tap_qr }}" alt="QR-kod för in-/utcheckning" class="poster-qr">
+      <p class="poster-url">{{ tap_url }}</p>
+      <p>Plippa telefonen mot NFC-taggen, eller skanna den här QR-koden med kameran.</p>
+    </section>
+  </main>
+</body>
+</html>

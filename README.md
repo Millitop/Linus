@@ -30,6 +30,9 @@ på alla telefoner utan att någon behöver installera en app.
 - **NFC-tagg vid dörren** — alternativ till QR: besökaren taggar sin
   egen telefon mot en passiv NFC-tagg (`/gate/tap`), ingen app krävs på
   varken iPhone eller Android. Se [`deploy/nfc-tag-setup.md`](deploy/nfc-tag-setup.md).
+- **Utskrivbar skylt** (`/admin/poster`) — en A4-vänlig sida med
+  QR-koder till `/join` och `/gate/tap`, att sätta upp vid dörren så
+  ingen behöver knappa in en lång webbadress.
 - **Live-närvaro & logg** — personal ser vilka som är incheckade just
   nu, samt en fullständig, exporterbar audit-logg över alla händelser.
 - **GDPR-medvetet** — minimal datainsamling, lokal lagring (ingen

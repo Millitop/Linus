@@ -1,3 +1,4 @@
+import base64
 import csv
 import io
 
@@ -19,6 +20,7 @@ from app.admin.services import erase_member_personal_data, register_member
 from app.card.services import issue_card, manual_set_status
 from app.extensions import db
 from app.models import LogEntry, Member
+from app.utils.qr import token_to_qr_png_bytes
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -110,6 +112,26 @@ def register_member_view():
         )
 
     return render_template("admin/register_member.html", form=form, new_pin=None, new_qr_url=None)
+
+
+@admin_bp.route("/poster")
+def poster():
+    """A printable A4 sign with QR codes for /join (self-registration)
+    and /gate/tap (check-in/out for anyone who's already registered) --
+    put it up at the door so people can find their way in without
+    typing a long URL. Both QR codes just encode plain URLs, so they
+    also work as a camera-scan fallback for /gate/tap on phones/sites
+    without NFC hardware.
+    """
+    join_url = url_for("card.join", _external=True)
+    tap_url = url_for("card.gate_tap", _external=True)
+    return render_template(
+        "admin/poster.html",
+        join_url=join_url,
+        tap_url=tap_url,
+        join_qr=base64.b64encode(token_to_qr_png_bytes(join_url)).decode("ascii"),
+        tap_qr=base64.b64encode(token_to_qr_png_bytes(tap_url)).decode("ascii"),
+    )
 
 
 @admin_bp.route("/members/search")
