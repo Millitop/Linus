@@ -181,7 +181,8 @@ class Page:
         """Rounded box with an optional label. Returns inner Box for content."""
         c = self.c
         c.setLineWidth(0.7)
-        c.setStrokeColor(stroke)
+        if stroke:
+            c.setStrokeColor(stroke)
         if fill:
             c.setFillColor(fill)
         c.roundRect(b.x, b.y, b.w, b.h, radius, stroke=1 if stroke else 0, fill=1 if fill else 0)

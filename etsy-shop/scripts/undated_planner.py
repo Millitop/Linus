@@ -48,7 +48,7 @@ def date_chip(p, x, y, w=16, h=13):
 def year_overview(p):
     p.header("Year at a Glance", "Goals & intentions", right_fields=("YEAR",))
     b = p.body
-    top_h = 74
+    top_h = 84
     top = Box(b.x, b.top - top_h, b.w, top_h)
     word, vision = top.split_h(0.36)
     inner = p.panel(word, "Word of the year", fill=CREAM, stroke=CREAM)
@@ -170,8 +170,10 @@ def weekly_vertical(p):
     focus = Box(right.x, right.top - focus_h, right.w, focus_h)
     p.lines(p.panel(focus, "Weekly focus", fill=CREAM, stroke=CREAM), 20)
     rest = Box(right.x, right.y, right.w, right.h - focus_h - GUTTER)
-    pri, todo, notes = rest.rows(3, gap=GUTTER)
-    numbered_lines(p, p.panel(pri, "Top priorities"), 3, spacing=Box(0, 0, 0, pri.h - 36).h / 3)
+    pri_h = 3 * 26 + 42
+    pri = Box(rest.x, rest.top - pri_h, rest.w, pri_h)
+    todo, notes = Box(rest.x, rest.y, rest.w, rest.h - pri_h - GUTTER).split_v(0.52)
+    numbered_lines(p, p.panel(pri, "Top priorities"), 3, spacing=26)
     p.checklist(p.panel(todo, "To do"), 20)
     p.dot_grid(p.panel(notes, "Notes"), 14)
     p.finish()
@@ -223,26 +225,29 @@ def daily_planner(p):
     tx = inner.x + 40
     for i, h in enumerate(hours):
         yt = inner.top - i * sh
-        p.text(inner.x + 30, yt - 13, h, SANS_BOLD if h.endswith("M") else SANS, 8, MUTED, "right")
+        p.text(inner.x + 30, yt - 11, h, SANS_BOLD if h.endswith("M") else SANS, 8, MUTED, "right")
+        c.setStrokeColor(LINE)
+        c.setLineWidth(0.6)
+        c.line(inner.x, yt, inner.right, yt)
         c.setStrokeColor(LINE_SOFT)
         c.setLineWidth(0.5)
         c.setDash(1, 2.5)
         c.line(tx, yt - sh / 2, inner.right, yt - sh / 2)
         c.setDash()
-        c.setStrokeColor(LINE)
-        c.setLineWidth(0.6)
-        c.line(tx, yt - sh, inner.right, yt - sh)
+    c.setStrokeColor(LINE)
+    c.setLineWidth(0.6)
+    c.line(inner.x, inner.y, inner.right, inner.y)
     c.setStrokeColor(p.accent_light)
     c.setLineWidth(1)
     c.line(tx - 4, inner.top, tx - 4, inner.y)
 
     # right column
-    top3_h = 104
+    top3_h = 116
     top3 = Box(right.x, right.top - top3_h, right.w, top3_h)
-    numbered_lines(p, p.panel(top3, "Top 3 today", fill=CREAM, stroke=CREAM), 3, spacing=24)
-    water_h = 46
-    grat_h = 96
-    notes_h = 96
+    numbered_lines(p, p.panel(top3, "Top 3 today", fill=CREAM, stroke=CREAM), 3, spacing=25)
+    water_h = 50
+    grat_h = 104
+    notes_h = 104
     y = right.y
     notes = Box(right.x, y, right.w, notes_h); y += notes_h + GUTTER
     grat = Box(right.x, y, right.w, grat_h); y += grat_h + GUTTER
@@ -266,7 +271,7 @@ def daily_minimal(p):
     inner = section(p, inten, "Today's intention")
     p.lines(inner, inner.h - 2)
     mid_h = b.h * 0.60
-    mid = Box(b.x, inten.y - 22, b.w, mid_h)
+    mid = Box(b.x, inten.y - 22 - mid_h, b.w, mid_h)
     l, r = mid.split_h(0.5, gap=28)
     p.checklist(section(p, l, "To do"), 22)
     parts = r.rows(3, gap=16)
@@ -291,8 +296,6 @@ def todo_list(p):
     c = p.c
     for col, title in zip(b.split_h(0.5), ["To do", "Also to do"]):
         inner = p.panel(col, title)
-        # small "priority" marker column on the right
-        p.label(inner.right, inner.top + 10, "!", MUTED, align="right")
         sp = 22
         y = inner.top - sp
         while y >= inner.y - 0.1:
@@ -301,9 +304,7 @@ def todo_list(p):
             c.roundRect(inner.x, y + 2, 8, 8, 1.5, stroke=1, fill=0)
             c.setStrokeColor(LINE)
             c.setLineWidth(0.6)
-            c.line(inner.x + 14, y, inner.right - 18, y)
-            c.setStrokeColor(LINE)
-            c.circle(inner.right - 5, y + 5, 3.5, stroke=1, fill=0)
+            c.line(inner.x + 14, y, inner.right, y)
             y -= sp
     p.finish()
 

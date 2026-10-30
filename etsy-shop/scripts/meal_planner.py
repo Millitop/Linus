@@ -86,6 +86,7 @@ def table(p, b, cols, row_h=22, fill=None, check_cols=(), check_color=None, head
             p.label(cx, b.top - head_h + (head_h - 5.5) / 2, name, INK, 7, "center")
     top = b.top - head_h
     n = int((top - b.y) // row_h)
+    row_h = (top - b.y) / n          # stretch rows so the table fills its box
     bottom = top - n * row_h
     c.setStrokeColor(LINE_SOFT)
     c.setLineWidth(0.6)
@@ -102,7 +103,7 @@ def table(p, b, cols, row_h=22, fill=None, check_cols=(), check_color=None, head
             c.setStrokeColor(check_color or p.accent)
             c.setLineWidth(0.8)
             c.roundRect(cx - 4, y - 4, 8, 8, 1.5, stroke=1, fill=0)
-    return n
+    return n, row_h
 
 
 def checkbox(p, x, y, s=8, color=None):
@@ -169,7 +170,7 @@ def weekly_list(p):
     p.header("Weekly Menu", "Simple days, good food", right_fields=("WEEK OF",))
     left, right = p.body.split_h(0.63)
     c = p.c
-    rows = left.rows(7, gap=8)
+    rows = left.rows(7, gap=10)
     for r, d in zip(rows, DAYS):
         c.setStrokeColor(LINE)
         c.setLineWidth(0.6)
@@ -196,8 +197,8 @@ def weekly_list(p):
             c.setStrokeColor(LINE)
             c.setLineWidth(0.6)
             c.line(inner.x + lw, y, inner.right, y)
-    top, rest = right.split_v(0.42)
-    mid, bot = rest.split_v(0.5)
+    top, rest = right.split_v(0.42, gap=10)
+    mid, bot = rest.split_v(0.5, gap=10)
     inner = p.panel(top, "Prep notes")
     p.lines(Box(inner.x, inner.y, inner.w, inner.h + 4), 19.5)
     inner = p.panel(mid, "Prep ahead", title_color=TERRA)
@@ -429,14 +430,14 @@ def takeout(p):
     main, bot = p.body.split_v(0.80)
     spec = [("Restaurant", 2.2), ("Cuisine", 1.2), ("Phone / app", 1.6), ("Our usual order", 3.2)]
     total = sum(w for _, w in spec)
-    n = table(p, main, spec, row_h=40)
+    n, rh = table(p, main, spec, row_h=40)
     # faint middle line in the order column for two-line orders
     x0 = main.x + main.w * (total - spec[-1][1]) / total
     c.setStrokeColor(LINE_SOFT)
     c.setLineWidth(0.5)
     top = main.top - 20
     for j in range(n):
-        y = top - (j + 0.5) * 40
+        y = top - (j + 0.5) * rh
         c.line(x0 + 8, y, main.right - 4, y)
     l, r = bot.split_h(0.5)
     inner = p.panel(l, "Allergies & preferences", title_color=TERRA)
