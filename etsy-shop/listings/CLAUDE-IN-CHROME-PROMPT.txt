@@ -1,0 +1,552 @@
+You are helping me create 6 listings in my Etsy shop. I am logged in to Etsy in this browser. Work through the listings one at a time.
+
+RULES
+- Save every listing as a DRAFT. Do NOT publish anything and do NOT pay or change billing/payment settings. I will review and publish myself.
+- When a file picker opens (photos or digital files), STOP and ask me to choose the files. Tell me the exact folder to pick from. The files are on my computer in: Downloads/Linnea-Etsy-Upload/<number>-<name>/images (photos) and .../files (digital files). Select all files in the folder, in name order.
+- Copy all text EXACTLY as written below (title, description, tags). Keep the line breaks in the description.
+- If Etsy shows a field not mentioned here, leave the default, or ask me if it is required.
+- After each listing is saved as a draft, tell me and move to the next.
+
+HOW TO CREATE EACH LISTING
+1. Go to Shop Manager > Listings > "+ Add a listing" (https://www.etsy.com/your/shops/me/listing-editor/create).
+2. Photos: ask me to upload all images from that product's "images" folder (01 first = main photo).
+3. Title: paste the title.
+4. About this listing: Who made it = "I did". What is it = "A finished product". When was it made = "2020 - 2026" (or the most recent option).
+5. Category: search "Calendars & Planners" (Paper & Party Supplies > Paper > Calendars & Planners). For the 2027 Digital Planner it can also be "Planners". Pick the closest match.
+6. Type: choose "Digital" (instant download).
+7. If Etsy asks about AI or "Creativity" / how the item was made: answer that it is my own original design, created with the help of AI tools (tick the AI-assisted/AI-generated disclosure if there is one).
+8. Description: paste the description.
+9. Attributes (if shown): fill in what fits, e.g. Occasion: New Year, Holiday: none; Format: PDF.
+10. Price: the price below in USD (if my shop currency is not USD, ask me before converting). Quantity: 999 (or leave Etsy's default for digital).
+11. Tags: add all 13 tags, one at a time.
+12. Materials: add the materials listed.
+13. Digital files: ask me to upload all files from that product's "files" folder.
+14. Shipping/processing: not needed for digital items.
+15. Click "Save as draft".
+
+
+==================== LISTING 1 of 6: 1-undated-planner ====================
+
+PHOTOS FOLDER: Downloads/Linnea-Etsy-Upload/1-undated-planner/images
+DIGITAL FILES FOLDER: Downloads/Linnea-Etsy-Upload/1-undated-planner/files
+
+TITLE:
+Undated Daily Weekly Planner Printable, Minimalist Planner PDF, Daily To Do List, Monthly Calendar, Letter A4, Sage Neutral
+
+PRICE (USD): 6.50
+
+TAGS (13):
+undated planner
+printable planner
+daily planner pdf
+weekly planner
+minimalist planner
+planner inserts
+2027 planner
+a4 planner printable
+letter planner
+productivity planner
+new year goals
+to do list printable
+sage green planner
+
+MATERIALS: Digital PDF, US Letter, A4, Printable
+
+DESCRIPTION (start):
+Start any day, any month, any year. This calm, minimal undated planner gives you a clear daily and weekly rhythm in soft sage, cream and terracotta, without wasted pages. Print only what you need and begin whenever you are ready. It's perfect for a fresh start in the new year.
+
+WHAT'S INCLUDED
+13 printable pages:
+- Cover page
+- Year goals
+- Undated monthly calendar (Monday start AND Sunday start)
+- Monthly review
+- Weekly planner (2 layouts: vertical & horizontal)
+- Daily planner (2 layouts: schedule & simple)
+- To-do list
+- Notes: dot grid + lined
+- Contacts & important dates
+
+SIZES & FILES
+- US Letter (8.5 x 11 in) PDF
+- A4 (210 x 297 mm) PDF
+- High-resolution, printer-friendly layouts with plenty of writing space
+
+HOW IT WORKS
+1. Purchase the listing.
+2. Download your files instantly from Purchases & Reviews on Etsy (or from the link in your confirmation email).
+3. Print at home or at a local print shop, as many times as you need for your own use.
+
+This is a DIGITAL DOWNLOAD. No physical item will be shipped.
+
+HOW TO PRINT
+- Open the PDF in Adobe Acrobat Reader (free) for the best results.
+- Choose "Actual size" (100%) or "Fit to page" if your printer cuts off the edges.
+- Pick the file that matches your paper: US Letter (8.5 x 11 in) or A4 (210 x 297 mm).
+- Matte paper of 100-120 gsm (24-32 lb) feels lovely and prevents bleed-through.
+- Print single pages or double-sided, punch holes and add to a binder, or take the file to a print shop for spiral binding.
+- Colors can vary slightly between screens and printers.
+
+LICENSE - PERSONAL USE
+This planner is for personal use only. You may print it as many times as you like for yourself and your household. Please do not resell, share, upload or distribute the files (digital or printed), and do not use them for commercial purposes. Thank you for supporting a small independent shop.
+
+ABOUT THE DESIGN
+Designed by Linnea Paper Co. Layouts are original designs created by the shop using digital design tools.
+
+FAQ
+- Can I write on it digitally?
+  Yes. You can import the PDF into GoodNotes, Notability or any PDF annotation app and write on it, but this version is designed for printing and has no hyperlinks.
+- Is it editable?
+  No. The text is not editable. Write or type in the blank spaces using a PDF app.
+- Is this a physical product?
+  No. You receive downloadable PDF files and nothing is shipped.
+- I can't find my files.
+  Go to Account > Purchases & Reviews on Etsy and tap "Download files". Downloads are easiest on a computer or in a mobile browser, since the Etsy app doesn't always show files.
+- Refunds?
+  Because digital files can't be returned, all sales are final. If anything is wrong with your file, message me and I will make it right.
+- Need help?
+  Send a message through Etsy. I usually reply within 24 hours.
+- Is it dated?
+  No. All pages are undated, so you can start any time and reuse them year after year.
+
+More calm, minimal planners in the shop: Linnea Paper Co.
+DESCRIPTION (end)
+
+
+==================== LISTING 2 of 6: 2-budget-planner ====================
+
+PHOTOS FOLDER: Downloads/Linnea-Etsy-Upload/2-budget-planner/images
+DIGITAL FILES FOLDER: Downloads/Linnea-Etsy-Upload/2-budget-planner/files
+
+TITLE:
+Budget Planner Printable, Monthly Budget, Expense & Bill Tracker, Debt Payoff, Savings Tracker, Sinking Funds, Letter A4 PDF
+
+PRICE (USD): 6.50
+
+TAGS (13):
+budget planner
+budget printable
+monthly budget
+expense tracker
+bill tracker
+savings tracker
+debt payoff tracker
+sinking funds
+budget binder
+finance planner
+no spend challenge
+net worth tracker
+2027 budget
+
+MATERIALS: Digital PDF, US Letter, A4, Printable
+
+DESCRIPTION (start):
+Feel calm about money again. This minimal budget planner walks you through your whole financial picture: goals, monthly budget, bills, savings and debt, on soft, uncluttered pages you'll actually want to use. Set it up for the new year and keep it going month after month.
+
+WHAT'S INCLUDED
+16 printable pages:
+- Financial goals
+- Annual overview
+- Monthly budget
+- Expense tracker
+- Bill tracker
+- Weekly spending log
+- Savings tracker
+- Debt payoff (snowball method)
+- Sinking funds
+- Subscriptions tracker
+- No-spend challenge
+- Net worth tracker
+- Monthly money review
+
+SIZES & FILES
+- US Letter (8.5 x 11 in) PDF
+- A4 (210 x 297 mm) PDF
+- High-resolution, printer-friendly layouts with plenty of writing space
+
+HOW IT WORKS
+1. Purchase the listing.
+2. Download your files instantly from Purchases & Reviews on Etsy (or from the link in your confirmation email).
+3. Print at home or at a local print shop, as many times as you need for your own use.
+
+This is a DIGITAL DOWNLOAD. No physical item will be shipped.
+
+HOW TO PRINT
+- Open the PDF in Adobe Acrobat Reader (free) for the best results.
+- Choose "Actual size" (100%) or "Fit to page" if your printer cuts off the edges.
+- Pick the file that matches your paper: US Letter (8.5 x 11 in) or A4 (210 x 297 mm).
+- Matte paper of 100-120 gsm (24-32 lb) feels lovely and prevents bleed-through.
+- Print single pages or double-sided, punch holes and add to a binder, or take the file to a print shop for spiral binding.
+- Colors can vary slightly between screens and printers.
+
+LICENSE - PERSONAL USE
+This planner is for personal use only. You may print it as many times as you like for yourself and your household. Please do not resell, share, upload or distribute the files (digital or printed), and do not use them for commercial purposes. Thank you for supporting a small independent shop.
+
+ABOUT THE DESIGN
+Designed by Linnea Paper Co. Layouts are original designs created by the shop using digital design tools.
+
+FAQ
+- Can I write on it digitally?
+  Yes. You can import the PDF into GoodNotes, Notability or any PDF annotation app and write on it, but this version is designed for printing and has no hyperlinks.
+- Is it editable?
+  No. The text is not editable. Write or type in the blank spaces using a PDF app.
+- Is this a physical product?
+  No. You receive downloadable PDF files and nothing is shipped.
+- I can't find my files.
+  Go to Account > Purchases & Reviews on Etsy and tap "Download files". Downloads are easiest on a computer or in a mobile browser, since the Etsy app doesn't always show files.
+- Refunds?
+  Because digital files can't be returned, all sales are final. If anything is wrong with your file, message me and I will make it right.
+- Need help?
+  Send a message through Etsy. I usually reply within 24 hours.
+- Does it work with any currency?
+  Yes. There are no currency symbols on the pages, so it works for $, £, € or kr.
+- Is it dated?
+  No. It's undated and reusable every month.
+
+More calm, minimal planners in the shop: Linnea Paper Co.
+DESCRIPTION (end)
+
+
+==================== LISTING 3 of 6: 3-habit-wellness-tracker ====================
+
+PHOTOS FOLDER: Downloads/Linnea-Etsy-Upload/3-habit-wellness-tracker/images
+DIGITAL FILES FOLDER: Downloads/Linnea-Etsy-Upload/3-habit-wellness-tracker/files
+
+TITLE:
+Habit Tracker Printable, Wellness Planner, Mood Tracker Year in Pixels, Self Care, Sleep & Water Tracker, Workout Log, Letter A4
+
+PRICE (USD): 5.50
+
+TAGS (13):
+habit tracker
+wellness planner
+mood tracker
+self care planner
+year in pixels
+workout log
+water tracker
+sleep tracker
+30 day challenge
+cycle tracker
+wellness journal
+printable tracker
+new year reset
+
+MATERIALS: Digital PDF, US Letter, A4, Printable
+
+DESCRIPTION (start):
+Small habits, gently tracked. This calm habit and wellness tracker helps you notice what makes you feel good, from sleep and water to movement, mood and self-care, without pressure or clutter. It's a soft way to start your new year reset.
+
+WHAT'S INCLUDED
+13 printable pages:
+- Monthly habit tracker
+- Weekly habit tracker
+- 30-day challenge
+- Year in pixels mood tracker
+- Sleep tracker
+- Water intake tracker
+- Workout log
+- Self-care checklist & ideas
+- Wellness journal page
+- Weekly reflection
+- Cycle tracker
+
+SIZES & FILES
+- US Letter (8.5 x 11 in) PDF
+- A4 (210 x 297 mm) PDF
+- High-resolution, printer-friendly layouts with plenty of writing space
+
+HOW IT WORKS
+1. Purchase the listing.
+2. Download your files instantly from Purchases & Reviews on Etsy (or from the link in your confirmation email).
+3. Print at home or at a local print shop, as many times as you need for your own use.
+
+This is a DIGITAL DOWNLOAD. No physical item will be shipped.
+
+HOW TO PRINT
+- Open the PDF in Adobe Acrobat Reader (free) for the best results.
+- Choose "Actual size" (100%) or "Fit to page" if your printer cuts off the edges.
+- Pick the file that matches your paper: US Letter (8.5 x 11 in) or A4 (210 x 297 mm).
+- Matte paper of 100-120 gsm (24-32 lb) feels lovely and prevents bleed-through.
+- Print single pages or double-sided, punch holes and add to a binder, or take the file to a print shop for spiral binding.
+- Colors can vary slightly between screens and printers.
+
+LICENSE - PERSONAL USE
+This planner is for personal use only. You may print it as many times as you like for yourself and your household. Please do not resell, share, upload or distribute the files (digital or printed), and do not use them for commercial purposes. Thank you for supporting a small independent shop.
+
+ABOUT THE DESIGN
+Designed by Linnea Paper Co. Layouts are original designs created by the shop using digital design tools.
+
+FAQ
+- Can I write on it digitally?
+  Yes. You can import the PDF into GoodNotes, Notability or any PDF annotation app and write on it, but this version is designed for printing and has no hyperlinks.
+- Is it editable?
+  No. The text is not editable. Write or type in the blank spaces using a PDF app.
+- Is this a physical product?
+  No. You receive downloadable PDF files and nothing is shipped.
+- I can't find my files.
+  Go to Account > Purchases & Reviews on Etsy and tap "Download files". Downloads are easiest on a computer or in a mobile browser, since the Etsy app doesn't always show files.
+- Refunds?
+  Because digital files can't be returned, all sales are final. If anything is wrong with your file, message me and I will make it right.
+- Need help?
+  Send a message through Etsy. I usually reply within 24 hours.
+- Is it dated?
+  No. Fill in your own months and dates and start any time.
+- Is this medical advice?
+  No. The trackers are for personal reflection only.
+
+More calm, minimal planners in the shop: Linnea Paper Co.
+DESCRIPTION (end)
+
+
+==================== LISTING 4 of 6: 4-meal-planner ====================
+
+PHOTOS FOLDER: Downloads/Linnea-Etsy-Upload/4-meal-planner/images
+DIGITAL FILES FOLDER: Downloads/Linnea-Etsy-Upload/4-meal-planner/files
+
+TITLE:
+Meal Planner Printable, Weekly Meal Plan & Grocery List, Recipe Cards, Pantry Freezer Inventory, Meal Prep Planner, Letter A4 PDF
+
+PRICE (USD): 4.90
+
+TAGS (13):
+meal planner
+grocery list
+meal prep planner
+weekly meal plan
+recipe cards
+pantry inventory
+freezer inventory
+menu planner
+family meal planner
+kitchen printable
+shopping list
+dinner planner
+letter a4 printable
+
+MATERIALS: Digital PDF, US Letter, A4, Printable
+
+DESCRIPTION (start):
+Know what's for dinner, all week. This minimal meal planner and grocery list set makes weekly meal planning quick and calm. Plan your meals, shop once with a categorized list, and keep track of what's already in your pantry, fridge and freezer.
+
+WHAT'S INCLUDED
+12 printable pages:
+- Weekly meal plan (2 layouts)
+- Categorized grocery list
+- Monthly meal calendar
+- Recipe cards (4 per page) + full recipe sheet
+- Pantry inventory
+- Fridge inventory
+- Freezer inventory
+- Meal prep planner
+- Favorite meals list
+
+SIZES & FILES
+- US Letter (8.5 x 11 in) PDF
+- A4 (210 x 297 mm) PDF
+- High-resolution, printer-friendly layouts with plenty of writing space
+
+HOW IT WORKS
+1. Purchase the listing.
+2. Download your files instantly from Purchases & Reviews on Etsy (or from the link in your confirmation email).
+3. Print at home or at a local print shop, as many times as you need for your own use.
+
+This is a DIGITAL DOWNLOAD. No physical item will be shipped.
+
+HOW TO PRINT
+- Open the PDF in Adobe Acrobat Reader (free) for the best results.
+- Choose "Actual size" (100%) or "Fit to page" if your printer cuts off the edges.
+- Pick the file that matches your paper: US Letter (8.5 x 11 in) or A4 (210 x 297 mm).
+- Matte paper of 100-120 gsm (24-32 lb) feels lovely and prevents bleed-through.
+- Print single pages or double-sided, punch holes and add to a binder, or take the file to a print shop for spiral binding.
+- Colors can vary slightly between screens and printers.
+
+LICENSE - PERSONAL USE
+This planner is for personal use only. You may print it as many times as you like for yourself and your household. Please do not resell, share, upload or distribute the files (digital or printed), and do not use them for commercial purposes. Thank you for supporting a small independent shop.
+
+ABOUT THE DESIGN
+Designed by Linnea Paper Co. Layouts are original designs created by the shop using digital design tools.
+
+FAQ
+- Can I write on it digitally?
+  Yes. You can import the PDF into GoodNotes, Notability or any PDF annotation app and write on it, but this version is designed for printing and has no hyperlinks.
+- Is it editable?
+  No. The text is not editable. Write or type in the blank spaces using a PDF app.
+- Is this a physical product?
+  No. You receive downloadable PDF files and nothing is shipped.
+- I can't find my files.
+  Go to Account > Purchases & Reviews on Etsy and tap "Download files". Downloads are easiest on a computer or in a mobile browser, since the Etsy app doesn't always show files.
+- Refunds?
+  Because digital files can't be returned, all sales are final. If anything is wrong with your file, message me and I will make it right.
+- Need help?
+  Send a message through Etsy. I usually reply within 24 hours.
+- Can I stick it on the fridge?
+  Yes. Print the weekly plan and grocery list, or slip them into a sheet protector and reuse them with a dry-erase marker.
+
+More calm, minimal planners in the shop: Linnea Paper Co.
+DESCRIPTION (end)
+
+
+==================== LISTING 5 of 6: 5-digital-planner-2027 ====================
+
+PHOTOS FOLDER: Downloads/Linnea-Etsy-Upload/5-digital-planner-2027/images
+DIGITAL FILES FOLDER: Downloads/Linnea-Etsy-Upload/5-digital-planner-2027/files
+
+TITLE:
+2027 Digital Planner, GoodNotes Planner, iPad Planner Landscape, Hyperlinked Dated Weekly Planner, Notability, Minimalist Sage
+
+PRICE (USD): 11.90
+
+TAGS (13):
+digital planner
+2027 planner
+goodnotes planner
+ipad planner
+notability planner
+hyperlinked planner
+landscape planner
+digital journal
+goodnotes template
+tablet planner
+minimalist planner
+new year planner
+neutral planner
+
+MATERIALS: Digital PDF, Hyperlinked PDF, GoodNotes, Notability
+
+DESCRIPTION (start):
+Plan your whole 2027 on your iPad. This calm, minimalist digital planner is fully hyperlinked: tap a tab and jump straight to any month, week or goal page. The landscape layout uses soft sage, cream and terracotta and leaves plenty of room to write with your Apple Pencil.
+
+WHAT'S INCLUDED
+- 1 hyperlinked PDF, about 104 pages, dated January to December 2027
+- Clickable month tabs on every page
+- Year at a glance + yearly goals
+- Monthly calendar pages with monthly goals
+- Dated weekly pages for every week of 2027, linked from each month
+- Notes pages
+- Landscape format, made for iPad
+
+COMPATIBLE APPS
+GoodNotes, Notability, Noteshelf, Xodo and most PDF annotation apps that support hyperlinks. Works on iPad and on Android tablets and Windows devices with a compatible app.
+
+HOW IT WORKS
+1. Purchase the listing.
+2. Download the PDF from Purchases & Reviews on Etsy. On iPad, the easiest way is to open Etsy in Safari, download, and choose "Open in GoodNotes" (or Notability).
+3. Import as a new notebook (not as an image) so the links keep working.
+4. Start planning: tap the tabs and calendar links to jump between months, weeks and goals.
+
+This is a DIGITAL DOWNLOAD. No physical item will be shipped. You need a tablet, a PDF annotation app (e.g. GoodNotes, Notability, Noteshelf, Xodo) and ideally a stylus.
+
+LICENSE - PERSONAL USE
+This planner is for personal use only. You may print it as many times as you like for yourself and your household. Please do not resell, share, upload or distribute the files (digital or printed), and do not use them for commercial purposes. Thank you for supporting a small independent shop.
+
+ABOUT THE DESIGN
+Designed by Linnea Paper Co. Layouts are original designs created by the shop using digital design tools.
+
+FAQ
+- Do the links work in GoodNotes?
+  Yes. Import the file as a new notebook (Import > choose the PDF) rather than as an image.
+- Does it start on Monday or Sunday?
+  Weeks start on Monday. Please check the preview photos.
+- Can I print it?
+  You can, but it is designed for screens in landscape format. For paper, see the printable planners in the shop.
+- Is it editable?
+  You can write and type on it in your app, but the layout and text are not editable.
+- Is this a physical product?
+  No. You receive downloadable PDF files and nothing is shipped.
+- I can't find my files.
+  Go to Account > Purchases & Reviews on Etsy and tap "Download files". Downloads are easiest on a computer or in a mobile browser, since the Etsy app doesn't always show files.
+- Refunds?
+  Because digital files can't be returned, all sales are final. If anything is wrong with your file, message me and I will make it right.
+- Need help?
+  Send a message through Etsy. I usually reply within 24 hours.
+
+More calm, minimal planners in the shop: Linnea Paper Co.
+DESCRIPTION (end)
+
+
+==================== LISTING 6 of 6: 6-life-planner-bundle ====================
+
+PHOTOS FOLDER: Downloads/Linnea-Etsy-Upload/6-life-planner-bundle/images
+DIGITAL FILES FOLDER: Downloads/Linnea-Etsy-Upload/6-life-planner-bundle/files
+
+TITLE:
+Life Planner Bundle Printable, Undated Planner, Budget Planner, Habit Tracker, Meal Planner, All in One Planner Set, Letter A4 PDF
+
+PRICE (USD): 14.90
+
+TAGS (13):
+planner bundle
+life planner
+printable bundle
+household binder
+budget planner
+meal planner
+habit tracker
+undated planner
+all in one planner
+life binder
+family organizer
+wellness planner
+new year planner
+
+MATERIALS: Digital PDF, US Letter, A4, Printable
+
+DESCRIPTION (start):
+Everything you need to organize your life, in one calm, matching set. This bundle combines four Linnea Paper Co. printables: your days, your money, your habits and your meals, all in the same soft sage, cream and terracotta style. Build one beautiful life binder for the new year and save about 36% compared to buying them separately.
+
+WHAT'S INCLUDED (about 54 pages)
+1) Undated Daily & Weekly Planner (13 pages): year goals, undated monthly calendar (Mon & Sun start), monthly review, 2 weekly layouts, 2 daily layouts, to-do, dot & lined notes, contacts & important dates
+2) Budget Planner (16 pages): goals, annual overview, monthly budget, expense, bill & savings trackers, weekly spending, debt snowball, sinking funds, subscriptions, no-spend challenge, net worth, review
+3) Habit & Wellness Tracker (13 pages): monthly & weekly habit trackers, 30-day challenge, year in pixels, sleep, water, workout log, self-care, wellness journal, weekly reflection, cycle tracker
+4) Meal Planner & Grocery List (12 pages): 2 weekly meal plans, categorized grocery list, monthly meal calendar, recipe cards & sheet, pantry/fridge/freezer inventory, meal prep plan, favorite meals
+
+SIZES & FILES
+- Every planner in US Letter (8.5 x 11 in) AND A4 (210 x 297 mm)
+- Delivered as PDF files (bundled in ZIP files where needed to fit Etsy's download limits)
+- Undated, so you can use them any year
+
+HOW IT WORKS
+1. Purchase the listing.
+2. Download your files instantly from Purchases & Reviews on Etsy (or from the link in your confirmation email).
+3. Print at home or at a local print shop, as many times as you need for your own use.
+
+This is a DIGITAL DOWNLOAD. No physical item will be shipped.
+
+HOW TO PRINT
+- Open the PDF in Adobe Acrobat Reader (free) for the best results.
+- Choose "Actual size" (100%) or "Fit to page" if your printer cuts off the edges.
+- Pick the file that matches your paper: US Letter (8.5 x 11 in) or A4 (210 x 297 mm).
+- Matte paper of 100-120 gsm (24-32 lb) feels lovely and prevents bleed-through.
+- Print single pages or double-sided, punch holes and add to a binder, or take the file to a print shop for spiral binding.
+- Colors can vary slightly between screens and printers.
+
+Opening ZIP files: on a computer, double-click the ZIP. On iPhone or iPad, tap it in the Files app to unzip.
+
+LICENSE - PERSONAL USE
+This planner is for personal use only. You may print it as many times as you like for yourself and your household. Please do not resell, share, upload or distribute the files (digital or printed), and do not use them for commercial purposes. Thank you for supporting a small independent shop.
+
+ABOUT THE DESIGN
+Designed by Linnea Paper Co. Layouts are original designs created by the shop using digital design tools.
+
+FAQ
+- Can I write on it digitally?
+  Yes. You can import the PDF into GoodNotes, Notability or any PDF annotation app and write on it, but this version is designed for printing and has no hyperlinks.
+- Is it editable?
+  No. The text is not editable. Write or type in the blank spaces using a PDF app.
+- Are these the same as the individual listings?
+  Yes. You get exactly the same four planners at a bundle discount.
+- Is this a physical product?
+  No. You receive downloadable PDF files and nothing is shipped.
+- I can't find my files.
+  Go to Account > Purchases & Reviews on Etsy and tap "Download files". Downloads are easiest on a computer or in a mobile browser, since the Etsy app doesn't always show files.
+- Refunds?
+  Because digital files can't be returned, all sales are final. If anything is wrong with your file, message me and I will make it right.
+- Need help?
+  Send a message through Etsy. I usually reply within 24 hours.
+
+More calm, minimal planners in the shop: Linnea Paper Co.
+DESCRIPTION (end)
+
+
+When all 6 drafts are saved, give me a short summary with any fields you were unsure about.
