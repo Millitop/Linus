@@ -383,8 +383,8 @@ def page_howto(p: Planner):
         y = inner.top - 80
         for it in items:
             c.setFillColor(SAGE)
-            c.circle(inner.x + 4, y + 4, 2.4, stroke=0, fill=1)
-            y = para(c, inner.x + 16, y, it, inner.w - 16, SANS, 13.5, INK, 1.42) - 10
+            c.circle(inner.x + 4, y + 5, 2.6, stroke=0, fill=1)
+            y = para(c, inner.x + 16, y, it, inner.w - 16, SANS, 15.5, INK, 1.45) - 14
     ins = Box(L, BODY_BOT + 230, R - L, 122)
     inner = panel(c, ins, "What's inside  ·  tap to jump", SAGE)
     items = [("Year at a glance", "year"), ("Important dates", "dates"), ("2027 goals", "goals"),
@@ -487,8 +487,8 @@ def page_month(p: Planner, m):
     prev_k = mkey(m - 1) if m > 1 else "year"
     next_k = mkey(m + 1) if m < 12 else "n01"
     p.header(MONTHS[m - 1], f"{YEAR} · month {m:02d}", dark, crumb_key="year",
-             chips=[("‹", prev_k, False), ("Goals & review", mkey(m, "g"), False),
-                    ("Habits", mkey(m, "h"), False), ("›", next_k, False)])
+             chips=[("‹ Prev", prev_k, False), ("Goals & review", mkey(m, "g"), False),
+                    ("Habits", mkey(m, "h"), False), ("Next ›", next_k, False)])
     body = Box(L, BODY_BOT, R - L, BODY_TOP - BODY_BOT)
     cal_b, side = body.split_h(0.775, 20)
     card(c, cal_b)
@@ -589,7 +589,7 @@ def page_habits(p: Planner, m):
         dt = date(YEAR, m, dday)
         x = gx + (dday - 1) * cw + cw / 2
         wk = dt.weekday()
-        label(c, x, inner.top - 14, "MTWTFSS"[wk], strong if wk < 5 else MUTED, 7.5, "center", 0)
+        label(c, x, inner.top - 14, "MTWTFSS"[wk], strong if wk < 5 else MUTED, 8.5, "center", 0)
         text(c, x, inner.top - 34, str(dday), SANS_BOLD if wk >= 5 else SANS, 10, INK if wk < 5 else MUTED, "center")
     for j in range(nrows):
         y = inner.top - hdr - (j + 1) * rh
@@ -676,7 +676,7 @@ def page_notes(p: Planner, n):
     prev_k = f"n{n - 1:02d}" if n > 1 else mkey(12)
     next_k = f"n{n + 1:02d}" if n < N_NOTES else "year"
     p.header("Notes", f"Notes {n} of {N_NOTES} · {'dot grid' if dots else 'lined'}", NEUTRAL[2],
-             chips=[("‹", prev_k, False), ("Lined", "n01", not dots), ("Dot grid", f"n{N_NOTES // 2 + 1:02d}", dots), ("›", next_k, False)])
+             chips=[("‹ Prev", prev_k, False), ("Lined", "n01", not dots), ("Dot grid", f"n{N_NOTES // 2 + 1:02d}", dots), ("Next ›", next_k, False)])
     body = Box(L, BODY_BOT, R - L, BODY_TOP - BODY_BOT)
     card(c, body)
     inner = body.inset(36)

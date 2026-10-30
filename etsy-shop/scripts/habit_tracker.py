@@ -93,10 +93,11 @@ def idea_list(p, b, items, spacing=19):
 
 
 def numbered_lines(p, b, n, spacing=None):
-    spacing = spacing or b.h / n
+    first, last = b.top - 22, b.y + 4
+    step = spacing or (first - last) / max(1, n - 1)
     c = p.c
     for i in range(n):
-        y = b.top - (i + 1) * spacing + 4
+        y = first - i * step
         p.text(b.x, y + 3, f"{i + 1}.", SANS_BOLD, 8, p.accent)
         c.setStrokeColor(LINE)
         c.setLineWidth(0.6)
@@ -561,7 +562,7 @@ def daily_journal(p):
     r1, r2, r3 = rest.rows(3)
     l, r_ = r1.split_h(0.58)
     inner = p.panel(l, "Today I'm grateful for")
-    numbered_lines(p, Box(inner.x, inner.y, inner.w, inner.h + 6), 3, (inner.h + 6) / 3)
+    numbered_lines(p, inner, 3)
     inner = p.panel(r_, "Affirmation", fill=CREAM, stroke=CREAM)
     p.lines(inner, 24)
     l, r_ = r2.split_h(0.58)
