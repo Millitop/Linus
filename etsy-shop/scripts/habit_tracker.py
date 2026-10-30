@@ -562,7 +562,14 @@ def daily_journal(p):
     r1, r2, r3 = rest.rows(3)
     l, r_ = r1.split_h(0.58)
     inner = p.panel(l, "Today I'm grateful for")
-    numbered_lines(p, inner, 3)
+    k = int(inner.h // 22)
+    for i in range(k):
+        y = inner.top - 22 * (i + 1)
+        if i % 2 == 0 and i // 2 < 3:
+            p.text(inner.x, y + 3, f"{i // 2 + 1}.", SANS_BOLD, 8, p.accent)
+        c.setStrokeColor(LINE)
+        c.setLineWidth(0.6)
+        c.line(inner.x + 14, y, inner.right, y)
     inner = p.panel(r_, "Affirmation", fill=CREAM, stroke=CREAM)
     p.lines(inner, 24)
     l, r_ = r2.split_h(0.58)

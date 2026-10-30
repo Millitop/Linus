@@ -1,0 +1,181 @@
+<title>Linnea Paper Co. Pins</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lato:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: Pinterest-style profile — brand header, board chips, masonry of pins, detail sheet */
+:root{
+  --bg:#FBF8F3; --surface:#FFFFFF; --sunk:#F1EBE1; --fg:#3B3A36; --muted:#7D776D; --line:#E4DCCF;
+  --sage:#7E9879; --terra:#B9765A; --ink-btn:#3B3A36; --ink-btn-fg:#FFFFFF;
+  --serif:"DM Serif Display", Georgia, "Times New Roman", serif;
+  --sans:"Lato", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1E1D1B; --surface:#2A2926; --sunk:#252421; --fg:#EEE9E1; --muted:#A79F93; --line:#3A3834;
+  --sage:#A9BFA4; --terra:#D9A085; --ink-btn:#EEE9E1; --ink-btn-fg:#1E1D1B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1E1D1B; --surface:#2A2926; --sunk:#252421; --fg:#EEE9E1; --muted:#A79F93; --line:#3A3834;
+  --sage:#A9BFA4; --terra:#D9A085; --ink-btn:#EEE9E1; --ink-btn-fg:#1E1D1B; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding-block:24px 8px}
+.avatar{width:84px;height:84px;border-radius:50%;background:var(--sunk);display:grid;place-items:center;border:1px solid var(--line)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,5vw,2.8rem);line-height:1.05;margin:6px 0 0;text-wrap:balance}
+.tag{color:var(--muted);font-style:italic;margin:0}
+.stats{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;color:var(--muted);font-size:.86rem}
+.stats b{color:var(--fg)}
+.actions{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;justify-content:center}
+.btn{font:700 .9rem var(--sans);border-radius:999px;padding:.7em 1.4em;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.5em}
+.btn.primary{background:var(--terra);color:#fff}
+.btn.ghost{background:var(--sunk);color:var(--fg)}
+.btn:focus-visible,.chip:focus-visible,.pin:focus-visible{outline:2px solid var(--sage);outline-offset:3px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:22px 2px 18px;scrollbar-width:none;justify-content:flex-start}
+.chips::-webkit-scrollbar{display:none}
+@media(min-width:760px){.chips{justify-content:center;flex-wrap:wrap}}
+.chip{flex:none;font:700 .78rem var(--sans);letter-spacing:.06em;border-radius:999px;padding:.65em 1.1em;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink-btn);color:var(--ink-btn-fg);border-color:var(--ink-btn)}
+.grid{column-count:2;column-gap:14px}
+@media(min-width:700px){.grid{column-count:3}}
+@media(min-width:1000px){.grid{column-count:4;column-gap:18px}}
+.pin{break-inside:avoid;margin:0 0 18px;display:block;width:100%;background:none;border:0;padding:0;text-align:left;color:inherit;cursor:pointer;font:inherit}
+.pin .img{position:relative;border-radius:16px;overflow:hidden;background:var(--sunk);aspect-ratio:2/3}
+.pin img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.pin:hover img{transform:scale(1.03)}
+.pin .save{position:absolute;top:10px;right:10px;background:var(--terra);color:#fff;font:700 .78rem var(--sans);padding:.55em 1em;border-radius:999px;opacity:0;transition:opacity .2s}
+.pin:hover .save,.pin:focus-visible .save{opacity:1}
+.pin .cap{padding:8px 4px 0;font-weight:700;font-size:.9rem;line-height:1.3}
+.pin .sub{padding:2px 4px 0;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;gap:8px}
+.price{font-variant-numeric:tabular-nums;color:var(--fg)}
+dialog{border:0;padding:0;border-radius:22px;max-width:min(980px,calc(100vw - 24px));width:100%;background:var(--surface);color:var(--fg);max-height:calc(100dvh - 24px)}
+dialog::backdrop{background:rgba(20,18,15,.55)}
+.sheet{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:820px){.sheet{grid-template-columns:1.15fr 1fr}}
+.sheet .media{background:var(--sunk);display:flex;flex-direction:column;gap:10px;padding:14px}
+.sheet .media img{border-radius:12px;width:100%;display:block}
+.thumbs{display:flex;gap:8px}
+.thumbs button{flex:1;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:none;cursor:pointer;aspect-ratio:2/3}
+.thumbs button[aria-current="true"]{border-color:var(--terra)}
+.thumbs img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.info{padding:26px 26px 30px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.eyebrow{font:700 .72rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--sage)}
+.info h2{font-family:var(--serif);font-weight:400;font-size:2rem;line-height:1.08;margin:0;text-wrap:balance}
+.info p{margin:0;max-width:62ch}
+.meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.meta .p{font:700 1.4rem var(--sans);font-variant-numeric:tabular-nums}
+.pill{background:var(--sunk);border-radius:999px;padding:.35em .9em;font-size:.8rem;color:var(--muted)}
+.hash{color:var(--sage);font-size:.85rem;word-break:break-word}
+.close{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:var(--surface);color:var(--fg);font-size:1.3rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.note{color:var(--muted);font-size:.8rem}
+footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:30px}
+@media (prefers-reduced-motion:reduce){.pin img{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="avatar" aria-hidden="true">
+      <svg width="30" height="48" viewBox="0 0 40 64"><g fill="var(--sage)"><rect x="19.4" y="4" width="1.2" height="58"/><path d="M20 50 C28 49 33 43 34 38 C27 38 22 43 20 50Z"/><path d="M20 38 C12 37 7 31 6 26 C13 26 18 31 20 38Z"/><path d="M20 26 C28 25 33 19 34 14 C27 14 22 19 20 26Z"/><path d="M20 14 C13 13 9 8 8 4 C14 4 18 8 20 14Z"/></g></svg>
+    </div>
+    <h1>Linnea Paper Co.</h1>
+    <p class="tag">Calm printables for an organized life</p>
+    <div class="stats"><span><b>6</b> products</span><span><b>18</b> pins</span><span><b>6</b> boards</span><span>Instant PDF downloads</span></div>
+    <div class="actions">
+      <a class="btn primary" id="shopBtn" href="#" target="_blank" rel="noopener">Shop on Etsy</a>
+      <a class="btn ghost" id="pinBtn" href="#" target="_blank" rel="noopener">Follow on Pinterest</a>
+    </div>
+  </header>
+  <nav class="chips" id="chips" aria-label="Boards"></nav>
+  <main class="grid" id="grid"></main>
+  <footer>Personal-use printables · Designed by Linnea Paper Co.</footer>
+</div>
+
+<dialog id="dlg" aria-labelledby="dTitle">
+  <div style="position:relative">
+    <button class="close" id="dClose" aria-label="Close">×</button>
+    <div class="sheet">
+      <div class="media"><img id="dImg" alt=""><div class="thumbs" id="dThumbs"></div><img id="dInside" alt="All pages inside"></div>
+      <div class="info">
+        <div class="eyebrow" id="dBoard"></div>
+        <h2 id="dTitle"></h2>
+        <div class="meta"><span class="p" id="dPrice"></span><span class="pill" id="dMeta"></span><span class="pill">Instant download</span></div>
+        <p id="dIntro"></p>
+        <p id="dPinDesc" class="note"></p>
+        <div class="hash" id="dHash"></div>
+        <div class="actions" style="justify-content:flex-start"><a class="btn primary" id="dBuy" href="#" target="_blank" rel="noopener">View on Etsy</a></div>
+        <p class="note" id="dSoon"></p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+// Fill in when the shop is live. Empty = buttons show "Opening soon".
+const ETSY_SHOP_URL = "";
+const PINTEREST_URL = "";
+const ETSY_LISTING_URLS = {}; // e.g. {"budget-planner": "https://www.etsy.com/listing/..."}
+const DATA = [{"slug": "undated-planner", "price": 6.5, "title": "Undated Daily & Weekly Planner Printable | Minimalist Sage Planner PDF", "board": "Minimalist Printable Planners", "pin_desc": "A calm, minimalist undated planner you can start any day. Includes daily and weekly planner pages, an undated monthly calendar (Monday or Sunday start), year goals, a to-do list and notes pages. Instant download printable PDF in US Letter and A4 in soft sage, cream and terracotta. Ideal for planning the new year, staying productive and building a simple daily routine.", "hashtags": ["#printableplanner", "#undatedplanner", "#minimalistplanner", "#plannerprintables", "#newyearplanning"], "intro": "Start any day, any month, any year. This calm, minimal undated planner gives you a clear daily and weekly rhythm in soft sage, cream and terracotta, without wasted pages. Print only what you need and begin whenever you are ready. It's perfect for a fresh start in the new year.", "tags": ["undated planner", "printable planner", "daily planner pdf", "weekly planner", "minimalist planner", "planner inserts", "2027 planner", "a4 planner printable", "letter planner", "productivity planner", "new year goals", "to do list printable", "sage green planner"], "name": "Daily & Weekly Planner", "meta": "13 pages · Letter + A4"}, {"slug": "budget-planner", "price": 6.5, "title": "Budget Planner Printable | Monthly Budget, Bill Tracker & Debt Payoff PDF", "board": "Budget Planner & Money Printables", "pin_desc": "Get your money organized for the new year with this minimalist budget planner printable. Includes a monthly budget, expense tracker, bill tracker, savings tracker, debt snowball payoff, sinking funds, subscription tracker, no-spend challenge and net worth tracker. Instant download PDF in US Letter and A4, undated and currency-free. A calm budget binder for saving money and paying off debt.", "hashtags": ["#budgetplanner", "#budgetprintable", "#budgetbinder", "#debtpayoff", "#savingmoney"], "intro": "Feel calm about money again. This minimal budget planner walks you through your whole financial picture: goals, monthly budget, bills, savings and debt, on soft, uncluttered pages you'll actually want to use. Set it up for the new year and keep it going month after month.", "tags": ["budget planner", "budget printable", "monthly budget", "expense tracker", "bill tracker", "savings tracker", "debt payoff tracker", "sinking funds", "budget binder", "finance planner", "no spend challenge", "net worth tracker", "2027 budget"], "name": "Budget Planner", "meta": "16 pages · Letter + A4"}, {"slug": "habit-wellness-tracker", "price": 5.5, "title": "Habit & Wellness Tracker Printable | Mood, Sleep, Water & Self Care PDF", "board": "Habit Tracker & Wellness Printables", "pin_desc": "Build better habits this year with a calm, minimalist habit and wellness tracker printable. Includes monthly and weekly habit trackers, a 30-day challenge, a year in pixels mood tracker, sleep and water trackers, a workout log, self-care ideas, a wellness journal and a cycle tracker. Instant download PDF in US Letter and A4 in soft sage and terracotta. A gentle new year reset for your self-care routine.", "hashtags": ["#habittracker", "#wellnessplanner", "#selfcareroutine", "#moodtracker", "#newyearreset"], "intro": "Small habits, gently tracked. This calm habit and wellness tracker helps you notice what makes you feel good, from sleep and water to movement, mood and self-care, without pressure or clutter. It's a soft way to start your new year reset.", "tags": ["habit tracker", "wellness planner", "mood tracker", "self care planner", "year in pixels", "workout log", "water tracker", "sleep tracker", "30 day challenge", "cycle tracker", "wellness journal", "printable tracker", "new year reset"], "name": "Habit & Wellness Tracker", "meta": "13 pages · Letter + A4"}, {"slug": "meal-planner", "price": 4.9, "title": "Meal Planner Printable & Grocery List | Weekly Meal Plan PDF", "board": "Meal Planning & Kitchen Printables", "pin_desc": "Make weekly meal planning easy with this minimalist meal planner printable. Includes two weekly meal plan layouts, a categorized grocery list, a monthly meal calendar, recipe cards, pantry, fridge and freezer inventory sheets, a meal prep planner and a favorite meals list. Instant download PDF in US Letter and A4. Saves time and money and helps families plan dinners for the whole week.", "hashtags": ["#mealplanner", "#mealplanning", "#grocerylist", "#mealprep", "#kitchenorganization"], "intro": "Know what's for dinner, all week. This minimal meal planner and grocery list set makes weekly meal planning quick and calm. Plan your meals, shop once with a categorized list, and keep track of what's already in your pantry, fridge and freezer.", "tags": ["meal planner", "grocery list", "meal prep planner", "weekly meal plan", "recipe cards", "pantry inventory", "freezer inventory", "menu planner", "family meal planner", "kitchen printable", "shopping list", "dinner planner", "letter a4 printable"], "name": "Meal Planner & Grocery List", "meta": "12 pages · Letter + A4"}, {"slug": "digital-planner-2027", "price": 11.9, "title": "2027 Digital Planner for GoodNotes & iPad | Minimalist Hyperlinked Planner", "board": "Digital Planners for iPad & GoodNotes", "pin_desc": "Plan your 2027 on your iPad with this minimalist hyperlinked digital planner for GoodNotes and Notability. It has clickable month tabs, dated weekly pages for the whole year, monthly calendars, yearly and monthly goals and notes pages. Landscape layout in soft sage, cream and terracotta. Instant download, ready for your Apple Pencil and perfect for new year planning.", "hashtags": ["#digitalplanner", "#goodnotesplanner", "#ipadplanner", "#2027planner", "#digitalplanning"], "intro": "Plan your whole 2027 on your iPad. This calm, minimalist digital planner is fully hyperlinked: tap a tab and jump straight to any month, week or goal page. The landscape layout uses soft sage, cream and terracotta and leaves plenty of room to write with your Apple Pencil.", "tags": ["digital planner", "2027 planner", "goodnotes planner", "ipad planner", "notability planner", "hyperlinked planner", "landscape planner", "digital journal", "goodnotes template", "tablet planner", "minimalist planner", "new year planner", "neutral planner"], "name": "2027 Digital Planner", "meta": "104 hyperlinked pages · iPad"}, {"slug": "life-planner-bundle", "price": 14.9, "title": "Life Planner Bundle Printable | Budget, Meal, Habit & Daily Planner Set", "board": "Life Binder & Home Organization Printables", "pin_desc": "Organize your whole life for the new year with this minimalist printable life planner bundle. It includes an undated daily and weekly planner, a budget planner with debt payoff and sinking funds, a habit and wellness tracker, and a meal planner with grocery list. About 49 matching pages in sage, cream and terracotta, instant download in US Letter and A4. A complete household binder and life binder set.", "hashtags": ["#lifeplanner", "#plannerbundle", "#householdbinder", "#printableplanner", "#getorganized"], "intro": "Everything you need to organize your life, in one calm, matching set. This bundle combines four Linnea Paper Co. printables: your days, your money, your habits and your meals, all in the same soft sage, cream and terracotta style. Build one beautiful life binder for the new year and save about 36% compared to buying them separately.", "tags": ["planner bundle", "life planner", "printable bundle", "household binder", "budget planner", "meal planner", "habit tracker", "undated planner", "all in one planner", "life binder", "family organizer", "wellness planner", "new year planner"], "name": "Life Planner Bundle", "meta": "4 planners · 54 pages"}];
+
+const $ = id => document.getElementById(id);
+const pins = [];
+DATA.forEach(p => [1,2,3].forEach(i => pins.push({...p, i})));
+// interleave so the first screen shows every product
+pins.sort((a,b) => a.i - b.i);
+
+function setLink(el, url, soonText){
+  if (url){ el.href = url; el.removeAttribute('aria-disabled'); el.style.opacity = ''; }
+  else { el.removeAttribute('href'); el.setAttribute('aria-disabled','true'); el.textContent = soonText; el.style.opacity = '.7'; el.style.cursor='default'; }
+}
+setLink($('shopBtn'), ETSY_SHOP_URL, 'Opening soon on Etsy');
+setLink($('pinBtn'), PINTEREST_URL, 'Pinterest coming soon');
+
+const boards = ['All pins', ...DATA.map(d => d.board)];
+let active = 'All pins';
+try { const s = localStorage.getItem('board'); if (boards.includes(s)) active = s; } catch(e){}
+
+function renderChips(){
+  $('chips').innerHTML = '';
+  boards.forEach(b => {
+    const c = document.createElement('button');
+    c.className = 'chip'; c.textContent = b; c.setAttribute('aria-pressed', b === active);
+    c.onclick = () => { active = b; try{localStorage.setItem('board', b)}catch(e){}; renderChips(); renderGrid(); };
+    $('chips').appendChild(c);
+  });
+}
+function renderGrid(){
+  $('grid').innerHTML = '';
+  pins.filter(p => active === 'All pins' || p.board === active).forEach(p => {
+    const b = document.createElement('button');
+    b.className = 'pin'; b.setAttribute('aria-label', p.title);
+    b.innerHTML = `<div class="img"><img loading="lazy" src="img/${p.slug}-pin-${p.i}.jpg" alt="${p.title.replace(/"/g,'&quot;')}"><span class="save">Save</span></div>
+      <div class="cap">${p.name}</div><div class="sub"><span>${p.meta}</span><span class="price">$${p.price.toFixed(2)}</span></div>`;
+    b.onclick = () => openPin(p);
+    $('grid').appendChild(b);
+  });
+}
+function openPin(p){
+  $('dBoard').textContent = p.board;
+  $('dTitle').textContent = p.name;
+  $('dPrice').textContent = '$' + p.price.toFixed(2);
+  $('dMeta').textContent = p.meta;
+  $('dIntro').textContent = p.intro;
+  $('dPinDesc').textContent = p.pin_desc;
+  $('dHash').textContent = p.hashtags.join('  ');
+  $('dInside').src = `img/${p.slug}-inside.jpg`;
+  const show = i => {
+    $('dImg').src = `img/${p.slug}-pin-${i}.jpg`; $('dImg').alt = p.title;
+    [...$('dThumbs').children].forEach((t,k) => t.setAttribute('aria-current', k+1 === i));
+  };
+  $('dThumbs').innerHTML = '';
+  [1,2,3].forEach(i => { const t = document.createElement('button'); t.setAttribute('aria-label', 'Pin ' + i);
+    t.innerHTML = `<img src="img/${p.slug}-pin-${i}.jpg" alt="">`; t.onclick = () => show(i); $('dThumbs').appendChild(t); });
+  show(p.i);
+  const url = ETSY_LISTING_URLS[p.slug] || ETSY_SHOP_URL;
+  const buy = $('dBuy'); buy.textContent = 'View on Etsy'; buy.style = '';
+  setLink(buy, url, 'Opening soon on Etsy');
+  $('dSoon').textContent = url ? '' : 'The Etsy shop opens soon. Save this pin to find it again.';
+  $('dlg').showModal();
+}
+$('dClose').onclick = () => $('dlg').close();
+$('dlg').addEventListener('click', e => { if (e.target === $('dlg')) $('dlg').close(); });
+renderChips(); renderGrid();
+</script>

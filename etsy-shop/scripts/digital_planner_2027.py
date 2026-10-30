@@ -354,7 +354,7 @@ def page_howto(p: Planner):
     c = p.c
     p.start("howto", "How to use")
     p.header("How to use your planner", "Start here", SAGE, chips=[("Year at a glance", "year", True)])
-    cols = Box(L, BODY_BOT + 372, R - L, BODY_TOP - BODY_BOT - 372).cols(3, 20)
+    cols = Box(L, BODY_BOT + 440, R - L, BODY_TOP - BODY_BOT - 440).cols(3, 20)
     steps = [
         ("1", "Download", [
             "On Etsy, open You → Purchases and reviews, then tap Download files next to this order.",
@@ -385,7 +385,7 @@ def page_howto(p: Planner):
             c.setFillColor(SAGE)
             c.circle(inner.x + 4, y + 5, 2.6, stroke=0, fill=1)
             y = para(c, inner.x + 16, y, it, inner.w - 16, SANS, 15.5, INK, 1.45) - 14
-    ins = Box(L, BODY_BOT + 230, R - L, 122)
+    ins = Box(L, BODY_BOT + 300, R - L, 122)
     inner = panel(c, ins, "What's inside  ·  tap to jump", SAGE)
     items = [("Year at a glance", "year"), ("Important dates", "dates"), ("2027 goals", "goals"),
              ("Monthly calendars", mkey(1)), ("Goals & review", mkey(1, "g")), ("Habit trackers", mkey(1, "h")),
@@ -396,7 +396,7 @@ def page_howto(p: Planner):
     for (s_, k), w_ in zip(items, widths):
         chip(c, x + w_, inner.y + 14, s_, k)
         x += w_ + gap
-    tips = Box(L, BODY_BOT, R - L, 210)
+    tips = Box(L, BODY_BOT, R - L, 282)
     inner = panel(c, tips, "Good to know", TERRA, fill=CARD)
     tcols = inner.cols(2, 40)
     left_t = [
@@ -413,8 +413,8 @@ def page_howto(p: Planner):
         y = col.top - 10
         for it in items:
             c.setFillColor(TERRA)
-            c.circle(col.x + 4, y + 4, 2.4, stroke=0, fill=1)
-            y = para(c, col.x + 16, y, it, col.w - 16, SANS, 12.5, INK, 1.4) - 10
+            c.circle(col.x + 4, y + 5, 2.6, stroke=0, fill=1)
+            y = para(c, col.x + 16, y, it, col.w - 16, SANS, 14.5, INK, 1.45) - 14
     p.finish()
 
 
@@ -492,7 +492,7 @@ def page_month(p: Planner, m):
     body = Box(L, BODY_BOT, R - L, BODY_TOP - BODY_BOT)
     cal_b, side = body.split_h(0.775, 20)
     card(c, cal_b)
-    wk_col = 52
+    wk_col = 62
     hdr_h = 40
     gx = cal_b.x + wk_col
     gw = cal_b.right - gx - 14

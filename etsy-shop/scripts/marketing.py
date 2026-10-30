@@ -44,10 +44,10 @@ def data_uri(p: Path) -> str:
 
 def pages_for(slug: str) -> list[Path]:
     if slug == "life-planner-bundle":
-        out = []
-        for s in BUNDLE_PARTS:
-            out += pages_for(s)[:3]
-        return out
+        parts = [pages_for(s) for s in BUNDLE_PARTS]
+        covers = [p[0] for p in parts]
+        rest = [pg for p in parts for pg in p[1:3]]
+        return covers + rest
     prev = ROOT / "products" / slug / "preview"
     files = sorted(prev.glob("*.png"))
     # printable products: prefer letter renders
@@ -123,9 +123,9 @@ def etsy_inside(slug, pages, name):
     W, H = 2700, 2025
     imgs = [data_uri(p) for p in pages]
     land = slug == "digital-planner-2027"
-    cols = 4 if land else 6
+    cols = 3 if land else 6
     n = min(len(imgs), cols * 2 if land else 12)
-    tw = 560 if land else 360
+    tw = 700 if land else 360
     th = tw * (1024 / 1366 if land else 11 / 8.5)
     gap = 40
     gw = cols * tw + (cols - 1) * gap
@@ -169,12 +169,12 @@ def pin(slug, pages, name, line, variant, cta="Instant download on Etsy"):
     a = PRODUCTS[slug][2]
     land = slug == "digital-planner-2027"
     if variant == 1:  # big title top, stacked pages below
-        sw, sh = sheet_dims(slug, 760 if land else 560)
-        pages_html = (sheet(imgs[min(1, len(imgs)-1)], 300, 640, sw, sh, 5, 1) + sheet(imgs[0], 140, 700, sw, sh, -3, 2)) if land else \
-            (sheet(imgs[min(2, len(imgs)-1)], 360, 600, sw, sh, 6, 1) + sheet(imgs[0], 100, 660, sw, sh, -5, 2))
+        sw, sh = sheet_dims(slug, 720 if land else 500)
+        pages_html = (sheet(imgs[min(1, len(imgs)-1)], 190, 600, sw, sh, 5, 1) + sheet(imgs[0], 60, 720, sw, sh, -3, 2)) if land else \
+            (sheet(imgs[min(2, len(imgs)-1)], 400, 560, sw, sh, 6, 1) + sheet(imgs[0], 120, 610, sw, sh, -5, 2))
         body = f'''<div class="blob" style="width:1100px;height:1100px;left:-50px;top:620px"></div>
 <div style="position:absolute;top:90px;width:100%;text-align:center;padding:0 70px;z-index:5">
-  <div class="label" style="font-size:22px">Printable · Minimal</div>
+  <div class="label" style="font-size:22px">{"Digital · Hyperlinked" if land else "Printable · Minimal"}</div>
   <div class="serif" style="font-size:{104 if len(name) < 20 else 86}px;line-height:1.02;margin-top:22px">{name}</div>
   <div style="font-style:italic;font-size:34px;color:var(--muted);margin-top:24px">{line}</div>
 </div>{pages_html}
