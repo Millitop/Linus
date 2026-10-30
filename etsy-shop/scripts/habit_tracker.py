@@ -181,7 +181,8 @@ def monthly_habits(p):
     b = p.body
     name_w = 138
     cw = (b.w - name_w) / 32           # 31 days + total column
-    n, header_h, rh = 16, 22, 23
+    header_h, rh = 22, 23
+    n = int((b.h * 0.66 - header_h) / rh)
     gh = header_h + n * rh
     grid_b = Box(b.x, b.top - gh, b.w, gh)
     widths = [name_w] + [cw] * 32
@@ -198,7 +199,7 @@ def monthly_habits(p):
     c.line(xs[-2], ys[-1], xs[-2], grid_b.top)
     c.line(xs[-1], ys[-1], xs[-1], grid_b.top)
     p.text((xs[-2] + xs[-1]) / 2, grid_b.top - header_h / 2 - 2.4, "#", SANS_BOLD, 7, INK, "center")
-    note(p, b.x, ys[-1] - 14, "Colour in a square each day you complete a habit. Total your days in the last column.")
+    note(p, b.x, ys[-1] - 14, "Color in a square each day you complete a habit. Total your days in the last column.")
     rest = Box(b.x, b.y, b.w, ys[-1] - 26 - b.y)
     l, r = rest.split_h(0.5)
     p.lines(p.panel(l, "Goals this month"), 20)
@@ -212,7 +213,8 @@ def weekly_habits(p):
     habit_w = b.w * 0.34
     goal_w = 56
     dw = (b.w - habit_w - goal_w) / 7
-    n, header_h, rh = 12, 24, 29
+    header_h, rh = 24, 29
+    n = int((b.h * 0.6 - header_h) / rh)
     gh = header_h + n * rh
     xs, ys = table(p, Box(b.x, b.top - gh, b.w, gh), [habit_w] + [dw] * 7 + [goal_w],
                    ["Habit"] + WEEKDAYS + ["Done"], n, header_h, rh, vcolor=LINE_SOFT)
@@ -234,13 +236,15 @@ def weekly_habits(p):
 
 
 def challenge_page(p):
-    p.header("30-Day Habit Challenge", "One habit, thirty days", right_fields=("START DATE",))
+    p.header("30-Day Habit Challenge", "One habit, thirty days", right_fields=())
     for blk in p.body.rows(2, gap=16):
         inner = p.panel(blk, None)
         c = p.c
         # fields
         y = inner.top - 12
-        field(p, inner.x + 4, y, inner.w - 8, "My challenge")
+        sd = (inner.w - 8) * 0.3
+        field(p, inner.x + 4, y, inner.w - 8 - sd - 20, "My challenge")
+        field(p, inner.right - 4 - sd, y, sd, "Start date")
         y -= 24
         half = (inner.w - 8 - 20) / 2
         field(p, inner.x + 4, y, half, "Why it matters")
@@ -262,7 +266,7 @@ def challenge_page(p):
                 c.circle(cx, cy, rr, stroke=1, fill=0)
                 p.text(cx, cy - 3.6, str(k), SERIF, 11, LINE, "center")
         note(p, inner.x + inner.w / 2, inner.y + 4,
-             "Colour in a circle for every day you show up. Missed one? Simply begin again.", "center")
+             "Color in a circle for every day you show up. Missed one? Simply begin again.", "center")
     p.finish()
 
 
@@ -327,7 +331,7 @@ def year_in_pixels(p):
     p.header("Mood Year in Pixels", "One little square a day", right_fields=("YEAR",))
     year_grid(p, p.body, "Mood key",
               ["Joyful", "Calm", "Content", "Productive", "Tired", "Anxious", "Sad", "Frustrated"],
-              128, "Choose a colour for each mood, colour the swatch, then fill in one square each day.")
+              128, "Choose a color for each mood, color the swatch, then fill in one square each day.")
     p.finish()
 
 
@@ -337,7 +341,8 @@ def mood_energy(p):
     c = p.c
     lab_w = 34
     dw = (b.w - lab_w) / 31
-    header_h, rh = 18, 21
+    header_h = 18
+    rh = min(30, b.h / 26)
 
     def chart(top, title, row_labels):
         p.label(b.x, top - 8, title, p.accent)
@@ -355,7 +360,7 @@ def mood_energy(p):
         return gb.y
 
     def mood_lab(i, x, y):
-        face(p, x, y, 7, 4 - i)
+        face(p, x, y, min(8.5, rh * 0.36), 4 - i)
 
     def energy_lab(i, x, y):
         lvl = 5 - i
@@ -446,6 +451,9 @@ def water_tracker(p):
             c.setLineWidth(0.6)
             if k < 15:
                 c.line(col.x, top - rh, col.right, top - rh)
+        if hi == 1:
+            cy = col.top - 15.5 * rh
+            note(p, col.x + 4, cy - 3, "Color in a glass for every one you drink.")
     p.finish()
 
 
@@ -464,7 +472,9 @@ def workout_log(p):
     # strength table
     y = b.top - det_h - 18
     p.label(b.x, y - 8, "Strength", p.accent)
-    n_s, rh = 10, 24
+    bottom_h, rh, n_c = 150, 22, 4
+    avail = b.h - det_h - bottom_h - GUTTER
+    n_s = min(12, int((avail - 18 - 22 - 26 - 18 - 22 - n_c * rh) / rh))
     gh = 22 + n_s * rh
     xs, ys = table(p, Box(b.x, y - 18 - gh, b.w, gh), [None, 62, 62, 62, 62, b.w * 0.2],
                    ["Exercise", "Set 1", "Set 2", "Set 3", "Set 4", "Notes"], n_s, 22, rh, vcolor=LINE)
@@ -472,27 +482,22 @@ def workout_log(p):
     # cardio table
     y = ys[-1] - 26
     p.label(b.x, y - 8, "Cardio", p.accent)
-    n_c = 4
     gh = 22 + n_c * rh
     xs, ys = table(p, Box(b.x, y - 18 - gh, b.w, gh), [None, 70, 70, 90, b.w * 0.2],
                    ["Activity", "Time", "Distance", "Intensity", "Notes"], n_c, 22, rh, vcolor=LINE)
     # bottom: how I felt + notes
-    rest = Box(b.x, b.y, b.w, ys[-1] - 14 - b.y)
+    rest = Box(b.x, b.y, b.w, bottom_h)
     l, r = rest.split_h(0.42)
     inner = p.panel(l, "How I felt")
-    fr = 10
-    rows = [("Before", None), ("After", None)]
+    fr = 9.5
     span = inner.w - 50
-    for i, (lab, _) in enumerate(rows):
-        cy = inner.top - 14 - i * 32
-        if cy - fr < inner.y + 30:
-            break
+    for i, lab in enumerate(["Before", "After"]):
+        cy = inner.top - 13 - i * 28
         p.label(inner.x, cy - 3, lab, size=7)
         for m in range(5):
             face(p, inner.x + 50 + span / 5 * (m + 0.5), cy, fr, m)
-    ly = inner.top - 14 - 2 * 32
-    field(p, inner.x, ly, inner.w, "Water")
-    field(p, inner.x, ly - 22, inner.w, "Stretch")
+    field(p, inner.x, inner.top - 72, inner.w, "Water")
+    field(p, inner.x, inner.top - 98, inner.w, "Stretch")
     p.lines(p.panel(r, "Notes & progress"), 20)
     p.finish()
 
@@ -507,13 +512,13 @@ def self_care(p):
                  "Write a to-do list", "Plan something fun"],
         "Body": ["Go for a gentle walk", "Stretch or do yoga", "Drink a full glass of water",
                  "Take a warm bath", "Cook a nourishing meal", "Get an early night",
-                 "Dance to a favourite song", "Spend time outside"],
+                 "Dance to a favorite song", "Spend time outside"],
         "Heart": ["Call a friend or family member", "Write a thank-you note", "Watch a comfort film",
                   "Say no without guilt", "Write three gratitudes", "Hug someone you love",
                   "Do something kind", "Laugh out loud"],
         "Home": ["Make your bed", "Declutter one drawer", "Light a candle", "Buy fresh flowers",
                  "Change the bedsheets", "Open the windows", "Tidy for 10 minutes",
-                 "Make a cosy corner"],
+                 "Make a cozy corner"],
     }
     rows = top.rows(2)
     boxes = rows[0].cols(2) + rows[1].cols(2)
@@ -556,7 +561,7 @@ def daily_journal(p):
     r1, r2, r3 = rest.rows(3)
     l, r_ = r1.split_h(0.58)
     inner = p.panel(l, "Today I'm grateful for")
-    numbered_lines(p, inner, 3, min(inner.h / 3, 34))
+    numbered_lines(p, Box(inner.x, inner.y, inner.w, inner.h + 6), 3, (inner.h + 6) / 3)
     inner = p.panel(r_, "Affirmation", fill=CREAM, stroke=CREAM)
     p.lines(inner, 24)
     l, r_ = r2.split_h(0.58)
@@ -600,11 +605,11 @@ def cycle_tracker(p):
     gb = Box(b.x, b.y + log_h + GUTTER, b.w, b.h - log_h - GUTTER)
     year_grid(p, gb, "Key",
               ["Light flow", "Medium flow", "Heavy flow", "Spotting", "Cramps", "Low energy"],
-              128, "Colour each swatch, then mark each day in the grid.", extra_lines=False)
+              128, "Color each swatch, then mark each day in the grid.")
     lb = Box(b.x, b.y, b.w, log_h)
     p.label(lb.x, lb.top - 8, "Cycle log", p.accent)
     tb = Box(lb.x, lb.y, lb.w, lb.h - 18)
-    table(p, tb, [90, 90, 70, 70, None],
+    table(p, tb, [88, 88, 84, 84, None],
           ["Start date", "End date", "Period length", "Cycle length", "Notes & symptoms"], 5, 22)
     p.finish()
 

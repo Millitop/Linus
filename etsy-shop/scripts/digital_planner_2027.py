@@ -21,6 +21,9 @@ from brand import (  # noqa: E402
 from reportlab.lib.colors import HexColor, white  # noqa: E402
 from reportlab.pdfbase import pdfmetrics  # noqa: E402
 from reportlab.pdfgen import canvas  # noqa: E402
+from reportlab import rl_config  # noqa: E402
+
+rl_config.useA85 = 0  # binary streams: smaller file
 
 SLUG = "digital-planner-2027"
 TITLE = "2027 Digital Planner"
@@ -154,13 +157,22 @@ def checklist(c, b: Box, spacing=36, accent=SAGE, box=11):
 
 
 def dot_grid(c, b: Box, step=28, r=0.9, color=LINE):
-    c.setFillColor(color)
+    # dots as zero-length round-capped strokes: tiny content streams
     nx, ny = int(b.w // step), int(b.h // step)
     ox = b.x + (b.w - nx * step) / 2
     oy = b.y + (b.h - ny * step) / 2
+    c.saveState()
+    c.setStrokeColor(color)
+    c.setLineWidth(2 * r)
+    c.setLineCap(1)
+    p = c.beginPath()
     for i in range(nx + 1):
         for j in range(ny + 1):
-            c.circle(ox + i * step, oy + j * step, r, stroke=0, fill=1)
+            x, y = ox + i * step, oy + j * step
+            p.moveTo(x, y)
+            p.lineTo(x, y)
+    c.drawPath(p, stroke=1, fill=0)
+    c.restoreState()
 
 
 def leaf(c, x, y, s=12, color=SAGE):
@@ -200,6 +212,10 @@ def para(c, x, y, s, width, font=SANS, size=12, color=INK, leading=1.5):
     return y
 
 
+def chip_w(s, size=8.5, sp=1.4):
+    return sw(s.upper(), SANS_BOLD, size, sp) + 30
+
+
 def chip(c, x_right, y, s, key, accent=None, filled=False):
     """Pill-shaped link button, right-aligned at x_right. Returns its left x."""
     size, sp = 8.5, 1.4
@@ -218,7 +234,7 @@ def chip(c, x_right, y, s, key, accent=None, filled=False):
 # ---- page frame -------------------------------------------------------------------
 class Planner:
     def __init__(self, path):
-        self.c = canvas.Canvas(str(path), pagesize=(W, H))
+        self.c = canvas.Canvas(str(path), pagesize=(W, H), pageCompression=1)
         self.c.setTitle(f"{TITLE} — {SHOP_NAME}")
         self.c.setAuthor(SHOP_NAME)
         self.c.setSubject("Hyperlinked 2027 digital planner for GoodNotes, Notability and Xodo")
@@ -338,7 +354,7 @@ def page_howto(p: Planner):
     c = p.c
     p.start("howto", "How to use")
     p.header("How to use your planner", "Start here", SAGE, chips=[("Year at a glance", "year", True)])
-    cols = Box(L, BODY_BOT + 250, R - L, BODY_TOP - BODY_BOT - 250).cols(3, 24)
+    cols = Box(L, BODY_BOT + 372, R - L, BODY_TOP - BODY_BOT - 372).cols(3, 20)
     steps = [
         ("1", "Download", [
             "On Etsy, open You → Purchases and reviews, then tap Download files next to this order.",
@@ -368,8 +384,19 @@ def page_howto(p: Planner):
         for it in items:
             c.setFillColor(SAGE)
             c.circle(inner.x + 4, y + 4, 2.4, stroke=0, fill=1)
-            y = para(c, inner.x + 16, y, it, inner.w - 16, SANS, 13.5, INK, 1.45) - 12
-    tips = Box(L, BODY_BOT, R - L, 226)
+            y = para(c, inner.x + 16, y, it, inner.w - 16, SANS, 13.5, INK, 1.42) - 10
+    ins = Box(L, BODY_BOT + 230, R - L, 122)
+    inner = panel(c, ins, "What's inside  ·  tap to jump", SAGE)
+    items = [("Year at a glance", "year"), ("Important dates", "dates"), ("2027 goals", "goals"),
+             ("Monthly calendars", mkey(1)), ("Goals & review", mkey(1, "g")), ("Habit trackers", mkey(1, "h")),
+             ("53 weekly spreads", week_key(WEEKS[0])), ("10 notes pages", "n01")]
+    widths = [chip_w(s_) for s_, _ in items]
+    gap = (inner.w - sum(widths)) / (len(items) - 1)
+    x = inner.x
+    for (s_, k), w_ in zip(items, widths):
+        chip(c, x + w_, inner.y + 14, s_, k)
+        x += w_ + gap
+    tips = Box(L, BODY_BOT, R - L, 210)
     inner = panel(c, tips, "Good to know", TERRA, fill=CARD)
     tcols = inner.cols(2, 40)
     left_t = [

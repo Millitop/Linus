@@ -285,7 +285,8 @@ def pg_weekly(p):
     sp = 20
     for cell, day in zip(cells, days):
         inner = p.title_band(cell, day)
-        n = int(inner.h // sp)
+        n = int(inner.h // 19)
+        sp = inner.h / n          # stretch rows so the cell is filled in both sizes
         bottom = inner.top - n * sp
         if day == "Notes":
             p.lines(Box(inner.x, bottom, inner.w, inner.h), sp)
